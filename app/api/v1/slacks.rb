@@ -12,9 +12,17 @@ module Slacks
         post '/' do
           st_params = strong_params(params).permit(:team_id, :user_id)
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
+          if user
           {
             text: "ポイント残高: #{user.thx_balance} \n みんなからもらったポイント: #{user.received_thx}"
           }
+          else
+            {
+              text: "Not yet registered.:ghost:\nYou can register with this command.::\n ```/thx_register``` "
+            }
+          end
+
+
         end
 
         # POST /v1/slack/thxes/send
@@ -27,9 +35,13 @@ module Slacks
         post 'send' do
           st_params = strong_params(params).permit(:team_id, :user_id, :text)
           if /@(?<receiver_id>.+)\|.+[\s　](?<thx>\d+)[\s　](?<comment>.+)/ =~ st_params[:text]
-            receiver = User.find_by!(slack_user_id: receiver_id, slack_team_id: st_params[:team_id])
-            sender = User.find_by!(slack_user_id: st_params[:user_id], slack_team_id: st_params[:team_id])
-            if sender == receiver
+            receiver = User.find_by(slack_user_id: receiver_id, slack_team_id: st_params[:team_id])
+            sender = User.find_by(slack_user_id: st_params[:user_id], slack_team_id: st_params[:team_id])
+            if sender.nil?
+              {
+                text: "Not yet registered.:ghost:\nYou can register with this command.::\n ```/thx_register``` "
+              }
+            elsif sender == receiver
               {
                 text: '自分自身にポイントを送ることは出来ません><'
               }
@@ -66,7 +78,7 @@ module Slacks
           end
         end
 
-        # POST /v1/slacks/thxes
+        # POST /v1/slacks/thxes/help
         desc 'ポイントの確認'
         params do
           requires :team_id, type: String, desc: 'チームID'
