@@ -36,7 +36,7 @@ module Slacks
             res = ThxTransaction.where(receiver: user).pluck(:thx, :comment)
             text = res.map {|item| "#{item.first} thx\n#{item.second}"}.join("\n\n")
             {
-              text: "*Good job.:coffee: \nThx Comments List. total #{res.count} * \n#{text}"
+              text: "*Good job.* :coffee: \n*Thx Comments List. total #{res.count}*\n#{text}"
             }
           else
             {
