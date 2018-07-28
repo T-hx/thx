@@ -1,8 +1,8 @@
 class User < ApplicationRecord
   has_many :receivers,  class_name:  'ThxTransaction',
-           foreign_key: 'receiver_id'
+           foreign_key: 'receiver_id', dependent: :nullify
   has_many :senders,  class_name:  'ThxTransaction',
-           foreign_key: 'sender_id'
+           foreign_key: 'sender_id', dependent: :nullify
   has_one :access_token, class_name: 'AccessToken', dependent: :destroy, inverse_of: :user
 
   before_save { self.email = email.downcase }
