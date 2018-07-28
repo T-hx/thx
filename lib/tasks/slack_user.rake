@@ -53,7 +53,7 @@ namespace :slack_user do
     pretty_res['members'].each do |user|
       if user['deleted']
         slack_user = User.find_by(slack_user_id: user['id'])
-        slack_user.destroy! if slack_user
+        slack_user.destroy if slack_user
       elsif User.where(slack_user_id: user['id'], slack_team_id: user['team_id']).blank?
         slack_users << User.new(name: user['name'],
                                 email: user['profile']['email'],
