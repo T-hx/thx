@@ -39,7 +39,7 @@ module Slacks
             sender = User.find_by(slack_user_id: st_params[:user_id], slack_team_id: st_params[:team_id])
             if sender.nil?
               {
-                text: "Not yet registered.:ghost:\nYou can register with this command.::\n ```/thx_register``` "
+                text: "Not yet registered.:ghost:\nYou can register with this command.\n ```/thx_register``` "
               }
             elsif sender == receiver
               {
@@ -103,7 +103,7 @@ module Slacks
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           if user.present?
             {
-              text: "#{user.name}さん、はすでに登録されています"
+              text: "#{user.name}, Already registered:ok:\nhow to use:eyes: ```/thx_help``` "
             }
           else
             res = Net::HTTP.get(URI.parse("https://slack.com/api/users.info?token=#{ENV['SLACK_TOKEN']}&user=#{st_params[:user_id]}&pretty=1"))
@@ -123,7 +123,7 @@ module Slacks
             end
 
             {
-              text: "res_user['name'], Welcome to thx! :wave: \nThis system is for Peer-To-Peer Bonus.\nhow to use ```/thx_help``` :eyes:"
+              text: "#{res_user['name']}, Welcome to thx! :wave: \nThis system is for Peer-To-Peer Bonus.\nhow to use:eyes: ```/thx_help``` "
             }
           end
         end
