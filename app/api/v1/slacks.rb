@@ -93,7 +93,7 @@ module Slacks
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           if user.present?
             {
-              text: "#{user.name}はすでに登録されています"
+              text: "#{user.name}さん、はすでに登録されています"
             }
           else
             res = Net::HTTP.get(URI.parse("https://slack.com/api/users.info?token=#{ENV['SLACK_TOKEN']}&user=#{st_params[:user_id]}&pretty=1"))
