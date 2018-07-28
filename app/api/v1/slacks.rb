@@ -13,9 +13,9 @@ module Slacks
           st_params = strong_params(params).permit(:team_id, :user_id)
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           if user
-          {
-            text: "ポイント残高: #{user.thx_balance} \n みんなからもらったポイント: #{user.received_thx}"
-          }
+            {
+              text: "ポイント残高: #{user.thx_balance} \n みんなからもらったポイント: #{user.received_thx}"
+            }
           else
             {
               text: "Not yet registered.:ghost:\nYou can register with this command.\n ```/thx_register``` "
@@ -34,16 +34,10 @@ module Slacks
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           if user
             res = ThxTransaction.where(receiver: user).pluck(:thx, :comment)
-            if res.present?
-              text = res.map {|item| "#{item.first} thx\n#{item.second}" }.join("\n\n")
-              {
-                text: "*Good job.:coffee: \nThx Comments List. total #{res.count} * \n#{text}"
-              }
-            else
-              {
-                text: 'まだコメントがありません'
-              }
-            end
+            text = res.map {|item| "#{item.first} thx\n#{item.second}"}.join("\n\n")
+            {
+              text: "*Good job.:coffee: \nThx Comments List. total #{res.count} * \n#{text}"
+            }
           else
             {
               text: "Not yet registered.:ghost:\nYou can register with this command.\n ```/thx_register``` "
@@ -154,13 +148,6 @@ module Slacks
           end
         end
       end
-    end
-
-    private
-
-    # @param Array comments
-    def build_comments(comments)
-      comments.
     end
   end
 end
