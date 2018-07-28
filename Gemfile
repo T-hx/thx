@@ -12,6 +12,8 @@ gem 'puma', '~> 3.11', '>= 3.11.2'
 gem 'responders', '~> 2.4'
 # Use mysql as the database for Active Record
 gem 'mysql2', '~> 0.4.10'
+# heroku用
+gem 'pg', group: :production
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0', '>= 5.0.7'
 # Use Uglifier as compressor for JavaScript assets
