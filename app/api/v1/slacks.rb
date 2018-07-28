@@ -32,11 +32,17 @@ module Slacks
         post 'comment' do
           st_params = strong_params(params).permit(:team_id, :user_id)
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
-          comments = ThxTransaction.where(receiver: user).pluck(:comment)
           if user
-            {
-              text: comments
-            }
+            comments = ThxTransaction.where(receiver: user).pluck(:comment)
+            if comments.present?
+              {
+                text: comments.to_s
+              }
+            else
+              {
+                text: 'まだコメントがありません'
+              }
+            end
           else
             {
               text: "Not yet registered.:ghost:\nYou can register with this command.\n ```/thx_register``` "
