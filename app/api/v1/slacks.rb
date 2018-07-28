@@ -18,7 +18,7 @@ module Slacks
           }
           else
             {
-              text: "Not yet registered.:ghost:\nYou can register with this command.::\n ```/thx_register``` "
+              text: "Not yet registered.:ghost:\nYou can register with this command.\n ```/thx_register``` "
             }
           end
 
