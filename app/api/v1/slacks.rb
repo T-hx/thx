@@ -25,7 +25,7 @@ module Slacks
 
         # POST /v1/slack/thxes/comment
         desc 'show comments'
-        param do
+        params do
           requires :team_id, type: String, desc: 'チームID'
           requires :user_id, type: String, desc: 'ユーザID'
         end
