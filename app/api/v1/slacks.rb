@@ -65,6 +65,18 @@ module Slacks
             }
           end
         end
+
+        # POST /v1/slacks/thxes
+        desc 'ポイントの確認'
+        params do
+          requires :team_id, type: String, desc: 'チームID'
+          requires :user_id, type: String, desc: 'ユーザID'
+        end
+        post 'help' do
+          {
+            text: "ポイント残高: #{user.thx_balance} \n みんなからもらったポイント: #{user.received_thx}"
+          }
+        end
       end
 
       resource 'user' do
@@ -97,8 +109,9 @@ module Slacks
                               verified: true)
               user.save!
             end
+
             {
-              text: "pretty_res['name']さん、thxへようこそ! :tada:"
+              text: "res_user['name'], Welcome to thx! :wave: \nThis system is for Peer-To-Peer Bonus.\nhow to use ```/thx_help``` :eyes:"
             }
           end
         end
