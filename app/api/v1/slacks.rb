@@ -13,9 +13,31 @@ module Slacks
           st_params = strong_params(params).permit(:team_id, :user_id)
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           if user
-          {
-            text: "ポイント残高: #{user.thx_balance} \n みんなからもらったポイント: #{user.received_thx}"
-          }
+            {
+              text: "ポイント残高: #{user.thx_balance} \n みんなからもらったポイント: #{user.received_thx}"
+            }
+          else
+            {
+              text: "Not yet registered.:ghost:\nYou can register with this command.\n ```/thx_register``` "
+            }
+          end
+        end
+
+        # POST /v1/slack/thxes/comment
+        desc 'show comments'
+        params do
+          requires :team_id, type: String, desc: 'チームID'
+          requires :user_id, type: String, desc: 'ユーザID'
+        end
+        post 'comment' do
+          st_params = strong_params(params).permit(:team_id, :user_id)
+          user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
+          if user
+            res = ThxTransaction.where(receiver: user).pluck(:thx, :comment)
+            text = res.map {|item| "#{item.first} thx\n#{item.second}"}.join("\n\n")
+            {
+              text: "*Good job.* :coffee: \n*Thx Comments List. total #{res.count}*\n#{text}"
+            }
           else
             {
               text: "Not yet registered.:ghost:\nYou can register with this command.\n ```/thx_register``` "
@@ -31,6 +53,7 @@ module Slacks
           requires :text, type: String, desc: 'コマンド引数'
         end
         post 'send' do
+          # TODO 送信先がthxに参加してなかった時のメッセージを作成する
           st_params = strong_params(params).permit(:team_id, :user_id, :text)
           if /@(?<receiver_id>.+)\|.+[\s　](?<thx>\d+)[\s　](?<comment>.+)/ =~ st_params[:text]
             receiver = User.find_by(slack_user_id: receiver_id, slack_team_id: st_params[:team_id])
@@ -38,6 +61,10 @@ module Slacks
             if sender.nil?
               {
                 text: "Not yet registered.:ghost:\nYou can register with this command.\n ```/thx_register``` "
+              }
+            elsif receiver.nil?
+              {
+                text: "the reciever hasn't joined to the thx system yet.\nLet's invite the person!:handshake:"
               }
             elsif sender == receiver
               {
@@ -77,13 +104,15 @@ module Slacks
         end
 
         # POST /v1/slacks/thxes/help
-        desc 'help thx slash command'
+        desc 'thxのhelp'
         params do
           requires :team_id, type: String, desc: 'チームID'
           requires :user_id, type: String, desc: 'ユーザID'
         end
         post 'help' do
-          # TODO: create help thx slash command
+          {
+            text: "This command is not available and the help page is still on the development.:man-bowing::skin-tone-4:"
+          }
         end
       end
 
