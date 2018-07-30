@@ -53,7 +53,6 @@ module Slacks
           requires :text, type: String, desc: 'コマンド引数'
         end
         post 'send' do
-          # TODO 送信先がthxに参加してなかった時のメッセージを作成する
           st_params = strong_params(params).permit(:team_id, :user_id, :text)
           if /@(?<receiver_id>.+)\|.+[\s　](?<thx>\d+)[\s　](?<comment>.+)/ =~ st_params[:text]
             receiver = User.find_by(slack_user_id: receiver_id, slack_team_id: st_params[:team_id])
