@@ -34,9 +34,9 @@ module Slacks
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           if user
             thxes = ThxTransaction.where(receiver: user)
-            text = thxes.map {|thx| "#{thx.thx} thx from #{thx.sender.name}\n#{thx.second}"}.join("\n\n")
+            text = thxes.map {|thx| "#{thx.thx} thx from #{thx.sender&.name}\n#{thx.comment}"}.join("\n\n")
             {
-              text: "*Good job.* :coffee: \n*Thx Comments List. total #{res.count}*\n#{text}"
+              text: "*Good job.* :coffee: \n*Thx Comments List. total #{thxes.count}*\n#{text}"
             }
           else
             {
