@@ -158,9 +158,8 @@ module Slacks
         end
         post 'stamp' do
           st_params = strong_params(params)
-          puts st_params
           {
-            text: "This command is not available and the help page is still on the development.:man-bowing::skin-tone-4:"
+            text: "#{st_params.inspect}"
           }
         end
       end
