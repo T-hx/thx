@@ -152,17 +152,16 @@ module Slacks
 
         # POST /v1/slacks/thxes/stamp
         desc 'ボタンが押された時'
-        # params do
-        #   # requires :team_id, type: String, desc: 'チームID'
-        #   # requires :user_id, type: String, desc: 'ユーザID'
-        # end
+        params do
+          requires :payload, type: Hash do
+            requires :team, type: Hash, desc: 'チーム情報'
+            requires :user, type: Hash, desc: 'ユーザID'
+          end
+        end
         post 'stamp' do
-          puts params.inspect
           st_params = strong_params(params)
-          puts "-----------------"
-          puts st_params.inspect
           {
-            text: "#{st_params[:payload]}"
+            text: "#{st_params[:payload][:team][:id]}, #{st_params[:payload][:user][:id]}"
           }
         end
       end
