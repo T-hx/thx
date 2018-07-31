@@ -152,10 +152,10 @@ module Slacks
 
         # POST /v1/slacks/thxes/stamp
         desc 'ボタンが押された時'
-        params do
-          requires :team_id, type: String, desc: 'チームID'
-          requires :user_id, type: String, desc: 'ユーザID'
-        end
+        # params do
+        #   # requires :team_id, type: String, desc: 'チームID'
+        #   # requires :user_id, type: String, desc: 'ユーザID'
+        # end
         post 'stamp' do
           st_params = strong_params(params)
           {
