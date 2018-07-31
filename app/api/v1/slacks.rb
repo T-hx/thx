@@ -29,11 +29,11 @@ module Slacks
           requires :team_id, type: String, desc: 'チームID'
           requires :user_id, type: String, desc: 'ユーザID'
         end
-        post 'comment' do
+        post 'comments' do
           st_params = strong_params(params).permit(:team_id, :user_id)
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           if user
-            thxes = ThxTransaction.where(receiver: user).limit(20)
+            thxes = ThxTransaction.where(receiver: user).order(created_at: :desc).limit(30)
             text = thxes.map {|thx| "#{thx.thx} thx from #{thx.sender&.name}\n#{thx.comment}"}.join("\n\n")
             {
               text: "*Good job.* :coffee: \n*Thx Comments List. total #{thxes.count}*\n#{text}"
