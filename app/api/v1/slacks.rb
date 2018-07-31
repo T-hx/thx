@@ -155,7 +155,7 @@ module Slacks
         post 'stamp' do
           st_params = strong_params(params)
           {
-            text: "#{st_params[:payload][:team][:id]}, #{st_params[:payload][:user][:id]}"
+            text: "#{st_params[:payload]}"
           }
         end
       end
