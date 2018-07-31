@@ -157,9 +157,12 @@ module Slacks
         #   # requires :user_id, type: String, desc: 'ユーザID'
         # end
         post 'stamp' do
-          json = JSON.parse(params)
+          puts params.inspect
+          st_params = strong_params(params)
+          puts "-----------------"
+          puts st_params.inspect
           {
-            text: "#{json}"
+            text: "#{st_params[:payload]}"
           }
         end
       end
