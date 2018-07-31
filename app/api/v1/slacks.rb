@@ -152,12 +152,6 @@ module Slacks
 
         # POST /v1/slacks/thxes/stamp
         desc 'ボタンが押された時'
-        params do
-          requires :payload, type: Hash do
-            requires :team, type: Hash, desc: 'チーム情報'
-            requires :user, type: Hash, desc: 'ユーザID'
-          end
-        end
         post 'stamp' do
           st_params = strong_params(params)
           {
