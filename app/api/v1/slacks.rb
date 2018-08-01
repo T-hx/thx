@@ -156,7 +156,7 @@ module Slacks
           st_params = strong_params(params)
           pretty_params = JSON.parse(st_params[:payload])
           {
-            text: "#{pretty_params[:user]}"
+            text: "#{pretty_params['user']}"
           }
         end
       end
