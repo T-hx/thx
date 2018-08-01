@@ -154,7 +154,7 @@ module Slacks
         desc 'ボタンが押された時'
         post 'stamp' do
           st_params = strong_params(params)
-          pretty_params = JSON.parse(st_params)
+          pretty_params = JSON.parse(st_params[:payload])
           {
             text: "#{pretty_params[:user]}"
           }
