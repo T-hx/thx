@@ -1,18 +1,17 @@
-module Ranking
-  class WeekThxRanking
-    include Batch
-    class << self
-      MEDAL_STAMP = %w(:first_place_medal: :second_place_medal: :third_place_medal:)
-      def excute
-        @logger.info '[start] start thx ranking on week'
-        summary = ThxTransaction.where(created_at: Date.yesterday.beginning_of_week..Date.yesterday.end_of_week).
-          where.not(receiver: nil).group(:receiver).count
-        best_3 = summary.sort_by {|_user, count| count}.take(3)
-        pretty_best_3 = best_3.map.with_index(1) {|data, index| "*best#{index} #{MEDAL_STAMP[index-1]}* \n *#{data.first.name}* \n#{data.second} count thx received \n"}
-        text = pretty_best_3.unshift("receive count ranking, *last week!!!* \n").join("\n")
-        notifier = Slack::Notifier.new(ENV['SLACK_WEBHOOK_URL'])
-        notifier.ping(text)
-      end
-    end
+class WeeklyThxRanking
+  include Batch
+  extend MessageBuilder
+
+  def self.execute
+    @logger.info '[start] start thx weekly ranking'
+    st = Date.yesterday.beginning_of_week
+    en = Date.yesterday.end_of_week
+    text = "*Thx Weekly Ranking (#{st}~#{en})* :tada:\n" +
+      build_received_count_ranking(st, en) + "\n" +
+      build_sent_count_ranking(st, en) + "\n" +
+      build_thx_amount_ranking(st, en) + "\n"
+    notifier = Slack::Notifier.new("https://hooks.slack.com/services/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")
+    notifier.ping(text)
+    @logger.info '[end] end thx weekly ranking'
   end
 end
