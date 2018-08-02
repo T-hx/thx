@@ -10,7 +10,7 @@ class WeeklyThxRanking
       build_received_count_ranking(st, en) + "\n" +
       build_sent_count_ranking(st, en) + "\n" +
       build_thx_amount_ranking(st, en) + "\n"
-    notifier = Slack::Notifier.new("https://hooks.slack.com/services/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")
+    notifier = Slack::Notifier.new(ENV['SLACK_WEBHOOK_URL'])
     notifier.ping(text)
     @logger.info '[end] end thx weekly ranking'
   end
