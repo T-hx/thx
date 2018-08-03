@@ -156,7 +156,8 @@ module Slacks
           {
             # text: "#{pretty_params['user']}"
             text: "まだ開発中です:man-bowing::skin-tone-3:",
-            response_type: "ephemeral"
+            response_type: "ephemeral",
+            replace_original: false
           }
         end
       end
