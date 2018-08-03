@@ -148,7 +148,8 @@ module Slacks
           # pretty_params = JSON.parse(st_params[:payload])
           {
             # text: "#{pretty_params['user']}"
-            text: "まだ開発中です:man-bowing::skin-tone-3:"
+            text: "まだ開発中です:man-bowing::skin-tone-3:",
+            replace_original: false
           }
         end
       end
