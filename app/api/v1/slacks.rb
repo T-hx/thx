@@ -85,8 +85,8 @@ module Slacks
                 "response_type": "in_channel",
                 "attachments": [
                   {
-                    "title": "commnent"
-                    "text": comment,
+                    "title": "commnent",
+                    "text": comment
                   },
                   {
                     "text": "*ボタンからもthxが送れます",
