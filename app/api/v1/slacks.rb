@@ -89,6 +89,13 @@ module Slacks
                     "callback_id": "thx_stamp",
                     "color": "30bc2b",
                     "attachment_type": "default",
+                    "fields": [
+                      {
+                        "title": "Priority",
+                        "value": "High",
+                        "short": false
+                      }
+                    ],
                     "actions": [
                       {
                         "name": "1thx",
@@ -148,7 +155,8 @@ module Slacks
           # pretty_params = JSON.parse(st_params[:payload])
           {
             # text: "#{pretty_params['user']}"
-            text: "まだ開発中です:man-bowing::skin-tone-3:"
+            text: "まだ開発中です:man-bowing::skin-tone-3:",
+            response_type: "ephemeral"
           }
         end
       end
