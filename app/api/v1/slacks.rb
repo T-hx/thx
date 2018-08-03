@@ -85,17 +85,14 @@ module Slacks
                 "response_type": "in_channel",
                 "attachments": [
                   {
+                    "title": "commnent"
                     "text": comment,
+                  },
+                  {
+                    "text": "*ボタンからもthxが送れます",
                     "callback_id": "thx_stamp",
                     "color": "30bc2b",
                     "attachment_type": "default",
-                    "fields": [
-                      {
-                        "title": "Priority",
-                        "value": "High",
-                        "short": false
-                      }
-                    ],
                     "actions": [
                       {
                         "name": "1thx",
