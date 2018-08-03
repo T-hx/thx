@@ -81,11 +81,37 @@ module Slacks
                 thx_transaction.save!
               end
               {
-                response_type: 'in_channel',
-                text: "#{sender.name}さんが#{receiver.name}さんに#{thx}ポイントを送りました！:tada:",
-                attachments: [
+                "text": "#{sender.name}さんが#{receiver.name}さんに#{thx}ポイントを送りました！:tada:",
+                "response_type": "in_channel",
+                "attachments": [
                   {
-                    text: comment
+                    "text": comment,
+                    "callback_id": "thx_stamp",
+                    "color": "30bc2b",
+                    "attachment_type": "default",
+                    "actions": [
+                      {
+                        "name": "1thx",
+                        "text": "1thx",
+                        "type": "button",
+                        "style": "primary",
+                        "value": "1"
+                      },
+                      {
+                        "name": "5thx",
+                        "text": "5thx",
+                        "type": "button",
+                        "style": "primary",
+                        "value": "5"
+                      },
+                      {
+                        "name": "10thx",
+                        "text": "10thx",
+                        "type": "button",
+                        "style": "primary",
+                        "value": "10"
+                      }
+                    ]
                   }
                 ]
               }
@@ -110,53 +136,19 @@ module Slacks
         end
         post 'help' do
           {
-            "text": "Would you like to play a game?",
-            "attachments": [
-              {
-                "text": "Choose a game to play",
-                "fallback": "You are unable to choose a game",
-                "callback_id": "wopr_game",
-                "color": "#3AA3E3",
-                "attachment_type": "default",
-                "actions": [
-                  {
-                    "name": "game",
-                    "text": "Chess",
-                    "type": "button",
-                    "value": "chess"
-                  },
-                  {
-                    "name": "game",
-                    "text": "Falken's Maze",
-                    "type": "button",
-                    "value": "maze"
-                  },
-                  {
-                    "name": "game",
-                    "text": "Thermonuclear War",
-                    "style": "danger",
-                    "type": "button",
-                    "value": "war",
-                    "confirm": {
-                      "title": "Are you sure?",
-                      "text": "Wouldn't you prefer a good game of chess?",
-                      "ok_text": "Yes",
-                      "dismiss_text": "No"
-                    }
-                  }
-                ]
-              }
-            ]
+            # text: "#{pretty_params['user']}"
+            text: "まだ開発中です:man-bowing::skin-tone-3:"
           }
         end
 
         # POST /v1/slacks/thxes/stamp
-        desc 'ボタンが押された時'
+        desc 'thxボタンが押された時'
         post 'stamp' do
-          st_params = strong_params(params)
-          pretty_params = JSON.parse(st_params[:payload])
+          # st_params = strong_params(params)
+          # pretty_params = JSON.parse(st_params[:payload])
           {
-            text: "#{pretty_params['user']}"
+            # text: "#{pretty_params['user']}"
+            text: "まだ開発中です:man-bowing::skin-tone-3:"
           }
         end
       end
