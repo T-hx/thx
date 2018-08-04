@@ -57,6 +57,7 @@ module Slacks
           if /@(?<receiver_id>.+)\|.+[\s　](?<thx>\d+)[\s　](?<comment>.+)/ =~ st_params[:text]
             receiver = User.find_by(slack_user_id: receiver_id, slack_team_id: st_params[:team_id])
             sender = User.find_by(slack_user_id: st_params[:user_id], slack_team_id: st_params[:team_id])
+            max_thx = sender.thx_balance
             if sender.nil?
               {
                 text: "Not yet registered.:ghost:\nYou can register with this command.\n ```/thx_register``` "
@@ -68,6 +69,10 @@ module Slacks
             elsif sender == receiver
               {
                 text: '自分自身にポイントを送ることは出来ません><'
+              }
+            elsif thx > max_thx
+              {
+                text: "thxが不足しています. あなたの残高: #{max_thx}thx"
               }
             else
               ApplicationRecord.transaction do
