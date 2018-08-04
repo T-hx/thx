@@ -93,11 +93,8 @@ module Slacks
                   {
                     "title": "commnent",
                     "text": comment,
-                    color: "30bc2b"
-                  },
-                  {
+                    color: "30bc2b",
                     "callback_id": "thx_stamp",
-                    "attachment_type": "default",
                     "actions": [
                       {
                         "name": "1thx",
