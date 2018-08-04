@@ -164,19 +164,27 @@ module Slacks
           max_thx = sender.thx_balance
           if sender.nil?
             {
-              text: "Not yet registered.:ghost:\nYou can register with this command.\n ```/thx_register``` "
+              text: "Not yet registered.:ghost:\nYou can register with this command.\n ```/thx_register``` ",
+              response_type: "ephemeral",
+              replace_original: false
             }
           elsif receiver.nil?
             {
-              text: "the reciever hasn't joined to the thx system yet.\nLet's invite the person!:handshake:"
+              text: "the reciever hasn't joined to the thx system yet.\nLet's invite the person!:handshake:",
+              response_type: "ephemeral",
+              replace_original: false
             }
           elsif sender == receiver
             {
-              text: '自分自身にポイントを送ることは出来ません><'
+              text: '自分自身にポイントを送ることは出来ません><',
+              response_type: "ephemeral",
+              replace_original: false
             }
           elsif thx.to_i > max_thx
             {
-              text: "thxが不足しています. あなたの残高: #{max_thx}thx"
+              text: "thxが不足しています. あなたの残高: #{max_thx}thx",
+              response_type: "ephemeral",
+              replace_original: false
             }
           else
             ApplicationRecord.transaction do
