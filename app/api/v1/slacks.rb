@@ -146,11 +146,8 @@ module Slacks
         post 'stamp' do
           st_params = strong_params(params)
           payload = JSON.parse(st_params[:payload])
-          puts payload
           s_id = payload['actions'][0]['value'].split(' ')[1]
           thx = payload['actions'][0]['value'].split(' ')[0]
-          puts s_id
-          puts thx
           receiver = User.find_by(slack_user_id: s_id, slack_team_id: payload['team']['id'])
           sender = User.find_by(slack_user_id: payload['user']['id'], slack_team_id: payload['team']['id'])
           ApplicationRecord.transaction do
@@ -164,7 +161,7 @@ module Slacks
             thx_transaction.save!
           end
           {
-            text: "#{receiver.name}さんに#{thx}ポイントを送りました！:tada",
+            text: "#{receiver.name}さんに#{thx}ポイントを送りました！:tada:",
             response_type: "ephemeral",
             replace_original: false
           }
