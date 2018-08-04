@@ -111,7 +111,8 @@ module Slacks
                         "type": "button",
                         "value": "10 #{receiver_id}"
                       }
-                    ]
+                    ],
+                    "footer": "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
                   }
                 ]
               }
