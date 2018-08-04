@@ -87,33 +87,29 @@ module Slacks
                   {
                     "title": "commnent",
                     "text": comment
+                    color: "30bc2b"
                   },
                   {
-                    "text": "*ボタンからもthxが送れます",
                     "callback_id": "thx_stamp",
-                    "color": "30bc2b",
                     "attachment_type": "default",
                     "actions": [
                       {
                         "name": "1thx",
                         "text": "1thx",
                         "type": "button",
-                        "style": "primary",
-                        "value": "1"
+                        "value": "1 #{receiver_id}"
                       },
                       {
                         "name": "5thx",
                         "text": "5thx",
                         "type": "button",
-                        "style": "primary",
-                        "value": "5"
+                        "value": "5 #{receiver_id}"
                       },
                       {
                         "name": "10thx",
                         "text": "10thx",
                         "type": "button",
-                        "style": "primary",
-                        "value": "10"
+                        "value": "10 #{receiver_id}"
                       }
                     ]
                   }
@@ -148,11 +144,24 @@ module Slacks
         # POST /v1/slacks/thxes/stamp
         desc 'thxボタンが押された時'
         post 'stamp' do
-          # st_params = strong_params(params)
-          # pretty_params = JSON.parse(st_params[:payload])
+          st_params = strong_params(params)
+          payload = JSON.parse(st_params[:payload])
+          s_id = payload['actions']['value'].split(' ')[1]
+          thx = payload['actions']['value'].split(' ')[0]
+          receiver = User.find_by(slack_user_id: s_id, slack_team_id: payload['team']['id'])
+          sender = User.find_by(slack_user_id: payload['user']['id'], slack_team_id: payload['team']['id'])
+          ApplicationRecord.transaction do
+            thx_transaction = ThxTransaction.new(thx_hash: SecureRandom.hex,
+                                                 sender: sender,
+                                                 receiver: receiver,
+                                                 thx: thx.to_i,
+                                                 comment: nil)
+            sender.update!(thx_balance: (sender.thx_balance - thx.to_i))
+            receiver.update!(received_thx: (receiver.received_thx + thx.to_i))
+            thx_transaction.save!
+          end
           {
-            # text: "#{pretty_params['user']}"
-            text: "まだ開発中です:man-bowing::skin-tone-3:",
+            text: "#{receiver.name}さんに#{thx}ポイントを送りました！:tada",
             response_type: "ephemeral",
             replace_original: false
           }
