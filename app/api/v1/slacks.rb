@@ -86,7 +86,7 @@ module Slacks
                 "attachments": [
                   {
                     "title": "commnent",
-                    "text": comment
+                    "text": comment,
                     color: "30bc2b"
                   },
                   {
