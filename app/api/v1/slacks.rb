@@ -70,7 +70,7 @@ module Slacks
               {
                 text: '自分自身にポイントを送ることは出来ません><'
               }
-            elsif thx > max_thx
+            elsif thx.to_i > max_thx
               {
                 text: "thxが不足しています. あなたの残高: #{max_thx}thx"
               }
