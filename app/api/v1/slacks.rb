@@ -24,6 +24,7 @@ module Slacks
         end
 
         # POST /v1/slack/thxes/comment
+        # TODO: コメントがnilのものは表示しない
         desc 'show comments'
         params do
           requires :team_id, type: String, desc: 'チームID'
@@ -151,6 +152,7 @@ module Slacks
         end
 
         # POST /v1/slacks/thxes/stamp
+        # TODO: 自分で送れないようにする
         desc 'thxボタンが押された時'
         post 'stamp' do
           st_params = strong_params(params)
