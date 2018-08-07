@@ -14,11 +14,29 @@ module Slacks
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           if user
             {
-              text: "thx残高: #{user.thx_balance} \n みんなからもらったthx: #{user.received_thx}thx"
+              attachments: [
+                {
+                  text: "thx残高: #{user.thx_balance} \n みんなからもらったthx: #{user.received_thx}thx",
+                  color: 'good'
+                },
+                {
+                  fallback: "",
+                  footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
+                }
+              ]
             }
           else
             {
-              text: "あなたはまだThxに登録されていません.:ghost:\n\"/thx_register\"コマンドを実行することで登録できます"
+              attachments: [
+                {
+                  text: "あなたはまだThxに登録されていません.:ghost:\n\"/thx_register\"コマンドを実行することで登録できます",
+                  color: 'danger'
+                },
+                {
+                  fallback: "",
+                  footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
+                }
+              ]
             }
           end
         end
@@ -42,7 +60,7 @@ module Slacks
               attachments: [
                 {
                   text: text,
-                  color: '30bc2b',
+                  color: 'good',
                 },
                 {
                   fallback: "",
@@ -52,7 +70,16 @@ module Slacks
             }
           else
             {
-              text: "あなたはまだThxに登録されていません.:ghost:\n\"/thx_register\"コマンドを実行することで登録できます"
+              attachments: [
+                {
+                  text: "あなたはまだThxに登録されていません.:ghost:\n\"/thx_register\"コマンドを実行することで登録できます",
+                  color: 'danger',
+                },
+                {
+                  fallback: "",
+                  footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
+                }
+              ]
             }
           end
         end
@@ -72,19 +99,51 @@ module Slacks
             max_thx = sender.thx_balance
             if sender.nil?
               {
-                text: "あなたはまだThxに登録されていません.:ghost:\n\"/thx_register\"コマンドを実行することで登録できます"
+                attachments: [
+                  {
+                    text: "あなたはまだThxに登録されていません.:ghost:\n\"/thx_register\"コマンドを実行することで登録できます",
+                    color: 'danger'
+                  },
+                  {
+                    fallback: "",
+                    footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
+                  }
               }
             elsif receiver.nil?
               {
-                text: "#{receiver.name}はまだThxに参加してません。招待してください!:handshake:"
+                attachments: [
+                  {
+                    text: "#{receiver.name}はまだThxに参加してません。招待してください!:handshake:",
+                    color: 'danger'
+                  },
+                  {
+                    fallback: "",
+                    footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
+                  }
               }
             elsif sender == receiver
               {
-                text: '自分自身にthxを送ることは出来ません><'
+                attachments: [
+                  {
+                    text: '自分自身にthxを送ることは出来ません><',
+                    color: 'danger'
+                  },
+                  {
+                    fallback: "",
+                    footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
+                  }
               }
             elsif thx.to_i > max_thx
               {
-                text: "thxが不足しています。 あなたの残高: #{max_thx}thx"
+                attachments: [
+                  {
+                    text: "thxが不足しています。 あなたの残高: #{max_thx}thx",
+                    color: 'danger'
+                  },
+                  {
+                    fallback: "",
+                    footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
+                  }
               }
             else
               ApplicationRecord.transaction do
@@ -103,7 +162,7 @@ module Slacks
                 attachments: [
                   {
                     text: comment,
-                    color: '30bc2b',
+                    color: 'good',
                   },
                   {
                     fallback: "",
@@ -114,10 +173,14 @@ module Slacks
             end
           else
             {
-              text: 'ポイントを送るには以下のようにコマンドを入力してください。',
               attachments: [
                 {
-                  text: '/thx @送る相手 ポイント メッセージ'
+                  text: "ポイントを送るには以下のようにコマンドを入力してください。\n\"/thx @送る相手 ポイント メッセージ\"",
+                  color: 'danger'
+                },
+                {
+                  fallback: "",
+                  footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
                 }
               ]
             }
@@ -132,7 +195,6 @@ module Slacks
         end
         post 'help' do
           {
-            # text: "#{pretty_params['user']}"
             text: "このコマンドはまだ開発中です:man-bowing::skin-tone-3:"
           }
         end
@@ -206,7 +268,16 @@ module Slacks
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           if user.present?
             {
-              text: "あなたはもうすでにThxに参加しています :ok:\n\"/thx_help\"で使い方を見れます :eyes:"
+              attachments: [
+                {
+                  text: "あなたはもうすでにThxに参加しています :ok:\n\"/thx_help\"で使い方を見れます :eyes:",
+                  color: 'good'
+                },
+                {
+                  fallback: "",
+                  footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
+                }
+              ]
             }
           else
             res = Net::HTTP.get(URI.parse("https://slack.com/api/users.info?token=#{ENV['SLACK_TOKEN']}&user=#{st_params[:user_id]}&pretty=1"))
@@ -226,7 +297,16 @@ module Slacks
             end
 
             {
-              text: "#{res_user['name']}, Welcome to thx! :wave: \nThis system is for Peer-To-Peer Bonus.\nhow to use:eyes: ```/thx_help``` "
+              attachments: [
+                {
+                  text: "#{res_user['name']}, Welcome to thx! :wave: \nThis system is for Peer-To-Peer Bonus.\nhow to use:eyes: ```/thx_help``` ",
+                  color: 'good'
+                },
+                {
+                  fallback: "",
+                  footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
+                }
+              ]
             }
           end
         end
