@@ -37,7 +37,7 @@ module Slacks
             thxes = ThxTransaction.where(receiver: user).limit(20)
             text = thxes.map {|thx| "#{thx.thx} thx from #{thx.sender&.name}\n#{thx.comment}"}.join("\n\n")
             {
-              text: "*Good job.* :coffee: \n*Thx Comments List.*\n",
+              text: "*Good job.* :coffee: \n*あなたに送られたthxコメントです.*\n",
               response_type: 'ephemeral',
               attachments: [
                 {
@@ -98,7 +98,7 @@ module Slacks
                 thx_transaction.save!
               end
               {
-                text: "<@#{sender.slack_user_id}>さんが<@#{receiver.slack_user_id}>さんに#{thx}thx送りました！:tada:",
+                text: "#{sender.name}さんが#{receiver.name}さんに#{thx}thx送りました！:tada:",
                 replace_original: true,
                 attachments: [
                   {
