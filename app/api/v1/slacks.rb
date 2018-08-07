@@ -37,7 +37,7 @@ module Slacks
             thxes = ThxTransaction.where(receiver: user).limit(20)
             text = thxes.map {|thx| "#{thx.thx} thx from #{thx.sender&.name}\n#{thx.comment}"}.join("\n\n")
             {
-              text: "*Good job.* :coffee: \n*Thx Comments List.*\n#{text}",
+              text: "*Good job.* :coffee: \n*Thx Comments List.*\n",
               response_type: 'ephemeral',
               attachments: [
                 {
