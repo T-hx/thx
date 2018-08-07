@@ -108,6 +108,7 @@ module Slacks
                     fallback: "",
                     footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
                   }
+                ]
               }
             elsif receiver.nil?
               {
@@ -120,6 +121,7 @@ module Slacks
                     fallback: "",
                     footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
                   }
+                ]
               }
             elsif sender == receiver
               {
@@ -132,6 +134,7 @@ module Slacks
                     fallback: "",
                     footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
                   }
+                ]
               }
             elsif thx.to_i > max_thx
               {
@@ -144,6 +147,7 @@ module Slacks
                     fallback: "",
                     footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
                   }
+                ]
               }
             else
               ApplicationRecord.transaction do
