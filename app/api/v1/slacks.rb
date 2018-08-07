@@ -14,6 +14,7 @@ module Slacks
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           if user
             {
+              icon_emoji: ':thx:',
               attachments: [
                 {
                   text: "thx残高: #{user.thx_balance} \n みんなからもらったthx: #{user.received_thx}thx",
@@ -27,6 +28,7 @@ module Slacks
             }
           else
             {
+              icon_emoji: ':thx:',
               attachments: [
                 {
                   text: "あなたはまだThxに登録されていません.:ghost:\n\"/thx_register\"コマンドを実行することで登録できます",
@@ -56,6 +58,7 @@ module Slacks
             text = thxes.map {|thx| "#{thx.thx} thx from #{thx.sender&.name}\n#{thx.comment}"}.join("\n\n")
             {
               text: "*Good job.* :coffee: \n*あなたに送られたthxコメントです.*\n",
+              icon_emoji: ':thx:',
               response_type: 'ephemeral',
               attachments: [
                 {
@@ -70,6 +73,7 @@ module Slacks
             }
           else
             {
+              icon_emoji: ':thx:',
               attachments: [
                 {
                   text: "あなたはまだThxに登録されていません.:ghost:\n\"/thx_register\"コマンドを実行することで登録できます",
@@ -99,6 +103,7 @@ module Slacks
             max_thx = sender.thx_balance
             if sender.nil?
               {
+                icon_emoji: ':thx:',
                 attachments: [
                   {
                     text: "あなたはまだThxに登録されていません.:ghost:\n\"/thx_register\"コマンドを実行することで登録できます",
@@ -112,6 +117,7 @@ module Slacks
               }
             elsif receiver.nil?
               {
+                icon_emoji: ':thx:',
                 attachments: [
                   {
                     text: "#{receiver.name}はまだThxに参加してません。招待してください!:handshake:",
@@ -125,6 +131,7 @@ module Slacks
               }
             elsif sender == receiver
               {
+                icon_emoji: ':thx:',
                 attachments: [
                   {
                     text: '自分自身にthxを送ることは出来ません><',
@@ -138,6 +145,7 @@ module Slacks
               }
             elsif thx.to_i > max_thx
               {
+                icon_emoji: ':thx:',
                 attachments: [
                   {
                     text: "thxが不足しています。 あなたの残高: #{max_thx}thx",
@@ -161,6 +169,7 @@ module Slacks
                 thx_transaction.save!
               end
               {
+                icon_emoji: ':thx:',
                 text: "#{sender.name}さんが#{receiver.name}さんに#{thx}thx送りました！:tada:",
                 response_type: 'in_channel',
                 attachments: [
@@ -177,6 +186,7 @@ module Slacks
             end
           else
             {
+              icon_emoji: ':thx:',
               attachments: [
                 {
                   text: "ポイントを送るには以下のようにコマンドを入力してください。\n\"/thx @送る相手 ポイント メッセージ\"",
@@ -199,7 +209,17 @@ module Slacks
         end
         post 'help' do
           {
-            text: "このコマンドはまだ開発中です:man-bowing::skin-tone-3:"
+            icon_emoji: ':thx:',
+            attachments: [
+              {
+                text: "このコマンドはまだ開発中です:man-bowing::skin-tone-3:",
+                color: 'danger'
+              },
+              {
+                fallback: "",
+                footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
+              }
+            ]
           }
         end
 
@@ -272,6 +292,7 @@ module Slacks
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           if user.present?
             {
+              icon_emoji: ':thx:',
               attachments: [
                 {
                   text: "あなたはもうすでにThxに参加しています :ok:\n\"/thx_help\"で使い方を見れます :eyes:",
@@ -299,8 +320,8 @@ module Slacks
                               verified: true)
               user.save!
             end
-
             {
+              icon_emoji: ':thx:',
               attachments: [
                 {
                   text: "#{res_user['name']}, Welcome to thx! :wave: \nThis system is for Peer-To-Peer Bonus.\nhow to use:eyes: ```/thx_help``` ",
