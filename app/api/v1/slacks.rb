@@ -37,7 +37,18 @@ module Slacks
             thxes = ThxTransaction.where(receiver: user).limit(20)
             text = thxes.map {|thx| "#{thx.thx} thx from #{thx.sender&.name}\n#{thx.comment}"}.join("\n\n")
             {
-              text: "*Good job.* :coffee: \n*Thx Comments List.*\n#{text}"
+              text: "*Good job.* :coffee: \n*Thx Comments List.*\n#{text}",
+              response_type: 'ephemeral',
+              attachments: [
+                {
+                  text: text,
+                  color: '30bc2b',
+                },
+                {
+                  fallback: "",
+                  footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
+                }
+              ]
             }
           else
             {
@@ -87,16 +98,17 @@ module Slacks
                 thx_transaction.save!
               end
               {
-                "text": "<@#{sender.slack_user_id}>さんが<@#{receiver.slack_user_id}>さんに#{thx}thx送りました！:tada:",
-                "response_type": "in_channel",
-                "attachments": [
+                text: "<@#{sender.slack_user_id}>さんが<@#{receiver.slack_user_id}>さんに#{thx}thx送りました！:tada:",
+                response_type: "in_channel",
+                replace_original: true,
+                attachments: [
                   {
-                    "text": comment,
-                    color: "30bc2b",
+                    text: comment,
+                    color: '30bc2b',
                   },
                   {
-                    "fallback": "",
-                    "footer": "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
+                    fallback: "",
+                    footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
                   }
                 ]
               }
