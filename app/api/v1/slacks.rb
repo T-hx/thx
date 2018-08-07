@@ -99,7 +99,6 @@ module Slacks
               end
               {
                 text: "<@#{sender.slack_user_id}>さんが<@#{receiver.slack_user_id}>さんに#{thx}thx送りました！:tada:",
-                response_type: "in_channel",
                 replace_original: true,
                 attachments: [
                   {
