@@ -14,7 +14,7 @@ module Slacks
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           if user
             {
-              icon_emoji: ':thx:',
+              icon_emoji: ':eyes:',
               attachments: [
                 {
                   text: "thx残高: #{user.thx_balance} \n みんなからもらったthx: #{user.received_thx}thx",
@@ -209,7 +209,7 @@ module Slacks
         end
         post 'help' do
           {
-            "icon_emoji": ":eyes:",
+            icon_emoji: ":thx:",
             attachments: [
               {
                 text: "このコマンドはまだ開発中です:man-bowing::skin-tone-3:",
