@@ -30,7 +30,7 @@ module Slacks
           requires :team_id, type: String, desc: 'チームID'
           requires :user_id, type: String, desc: 'ユーザID'
         end
-        post 'show comments' do
+        post 'comment' do
           st_params = strong_params(params).permit(:team_id, :user_id)
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           if user
