@@ -209,7 +209,7 @@ module Slacks
         end
         post 'help' do
           {
-            icon_emoji: ':eyes:',
+            "icon_emoji": ":eyes:",
             attachments: [
               {
                 text: "このコマンドはまだ開発中です:man-bowing::skin-tone-3:",
