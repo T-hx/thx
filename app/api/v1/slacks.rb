@@ -99,7 +99,7 @@ module Slacks
               end
               {
                 text: "#{sender.name}さんが#{receiver.name}さんに#{thx}thx送りました！:tada:",
-                replace_original: true,
+                response_type: 'in_channel',
                 attachments: [
                   {
                     text: comment,
