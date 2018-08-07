@@ -4,7 +4,7 @@ module Slacks
     resource 'slack' do
       resource 'thxes' do
         # POST /v1/slacks/thxes
-        desc 'ポイントの確認'
+        desc 'thx残高の確認'
         params do
           requires :team_id, type: String, desc: 'チームID'
           requires :user_id, type: String, desc: 'ユーザID'
@@ -14,11 +14,11 @@ module Slacks
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           if user
             {
-              text: "ポイント残高: #{user.thx_balance} \n みんなからもらったポイント: #{user.received_thx}"
+              text: "thx残高: #{user.thx_balance} \n みんなからもらったthx: #{user.received_thx}thx"
             }
           else
             {
-              text: "Not yet registered.:ghost:\nYou can register with this command.\n ```/thx_register``` "
+              text: "あなたはまだThxに登録されていません.:ghost:\n\"/thx_register\"コマンドを実行することで登録できます"
             }
           end
         end
@@ -30,24 +30,24 @@ module Slacks
           requires :team_id, type: String, desc: 'チームID'
           requires :user_id, type: String, desc: 'ユーザID'
         end
-        post 'comment' do
+        post 'show comments' do
           st_params = strong_params(params).permit(:team_id, :user_id)
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           if user
             thxes = ThxTransaction.where(receiver: user).limit(20)
             text = thxes.map {|thx| "#{thx.thx} thx from #{thx.sender&.name}\n#{thx.comment}"}.join("\n\n")
             {
-              text: "*Good job.* :coffee: \n*Thx Comments List. total #{thxes.count}*\n#{text}"
+              text: "*Good job.* :coffee: \n*Thx Comments List.*\n#{text}"
             }
           else
             {
-              text: "Not yet registered.:ghost:\nYou can register with this command.\n ```/thx_register``` "
+              text: "あなたはまだThxに登録されていません.:ghost:\n\"/thx_register\"コマンドを実行することで登録できます"
             }
           end
         end
 
         # POST /v1/slack/thxes/send
-        desc 'ポイントの送信'
+        desc 'thxの送信'
         params do
           requires :team_id, type: String, desc: 'チームID'
           requires :user_id, type: String, desc: 'ユーザID'
@@ -61,19 +61,19 @@ module Slacks
             max_thx = sender.thx_balance
             if sender.nil?
               {
-                text: "Not yet registered.:ghost:\nYou can register with this command.\n ```/thx_register``` "
+                text: "あなたはまだThxに登録されていません.:ghost:\n\"/thx_register\"コマンドを実行することで登録できます"
               }
             elsif receiver.nil?
               {
-                text: "the reciever hasn't joined to the thx system yet.\nLet's invite the person!:handshake:"
+                text: "#{receiver.name}はまだThxに参加してません。招待してください!:handshake:"
               }
             elsif sender == receiver
               {
-                text: '自分自身にポイントを送ることは出来ません><'
+                text: '自分自身にthxを送ることは出来ません><'
               }
             elsif thx.to_i > max_thx
               {
-                text: "thxが不足しています. あなたの残高: #{max_thx}thx"
+                text: "thxが不足しています。 あなたの残高: #{max_thx}thx"
               }
             else
               ApplicationRecord.transaction do
@@ -87,34 +87,12 @@ module Slacks
                 thx_transaction.save!
               end
               {
-                "text": "#{sender.name}さんが#{receiver.name}さんに#{thx}ポイントを送りました！:tada:",
+                "text": "<@#{sender.slack_user_id}>さんが<@#{receiver.slack_user_id}>さんに#{thx}thx送りました！:tada:",
                 "response_type": "in_channel",
                 "attachments": [
                   {
-                    "title": "commnent",
                     "text": comment,
                     color: "30bc2b",
-                    "callback_id": "thx_stamp",
-                    "actions": [
-                      {
-                        "name": "1thx",
-                        "text": "1thx",
-                        "type": "button",
-                        "value": "1 #{receiver_id}"
-                      },
-                      {
-                        "name": "5thx",
-                        "text": "5thx",
-                        "type": "button",
-                        "value": "5 #{receiver_id}"
-                      },
-                      {
-                        "name": "10thx",
-                        "text": "10thx",
-                        "type": "button",
-                        "value": "10 #{receiver_id}"
-                      }
-                    ]
                   },
                   {
                     "fallback": "",
@@ -144,13 +122,15 @@ module Slacks
         post 'help' do
           {
             # text: "#{pretty_params['user']}"
-            text: "まだ開発中です:man-bowing::skin-tone-3:"
+            text: "このコマンドはまだ開発中です:man-bowing::skin-tone-3:"
           }
         end
 
         # POST /v1/slacks/thxes/stamp
         # TODO: 自分で送れないようにする
-        desc 'thxボタンが押された時'
+        # TODO: アクティブユーザーが増えたら実装する
+        # TODO: リファクタ
+        desc '追thx送信'
         post 'stamp' do
           st_params = strong_params(params)
           payload = JSON.parse(st_params[:payload])
@@ -215,7 +195,7 @@ module Slacks
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           if user.present?
             {
-              text: "#{user.name}, Already registered:ok:\nhow to use:eyes: ```/thx_help``` "
+              text: "あなたはもうすでにThxに参加しています :ok:\n\"/thx_help\"で使い方を見れます :eyes:"
             }
           else
             res = Net::HTTP.get(URI.parse("https://slack.com/api/users.info?token=#{ENV['SLACK_TOKEN']}&user=#{st_params[:user_id]}&pretty=1"))
