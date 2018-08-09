@@ -3,7 +3,7 @@ json.attachments do
     json.color '#36a64f'
     json.title "My Thx ( #{@user.name} )"
     json.title_link 'https://api.slack.com/'
-    json.field do
+    json.fields do
       json.child! do
         json.title '今月のthx残高'
         json.value "#{@user.thx_balance}thx"
