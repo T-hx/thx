@@ -9,38 +9,10 @@ module Slacks
           requires :team_id, type: String, desc: 'チームID'
           requires :user_id, type: String, desc: 'ユーザID'
         end
-        post '/' do
+        post '/', jbuilder: 'v1/slacks/me' do
           st_params = strong_params(params).permit(:team_id, :user_id)
-          user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
-          if user
-            {
-              icon_emoji: ':eyes:',
-              attachments: [
-                {
-                  text: "thx残高: #{user.thx_balance} \n みんなからもらったthx: #{user.received_thx}thx",
-                  color: 'good'
-                },
-                {
-                  fallback: "",
-                  footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
-                }
-              ]
-            }
-          else
-            {
-              icon_emoji: ':thx:',
-              attachments: [
-                {
-                  text: "あなたはまだThxに登録されていません.:ghost:\n\"/thx_register\"コマンドを実行することで登録できます",
-                  color: 'danger'
-                },
-                {
-                  fallback: "",
-                  footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
-                }
-              ]
-            }
-          end
+          @user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
+          not_registered unless @user
         end
 
         # POST /v1/slack/thxes/comment
@@ -337,5 +309,29 @@ module Slacks
         end
       end
     end
+  end
+
+  def not_registered
+    {
+      attachments: [
+        {
+          text: "あなたはまだThxに登録されていません.:ghost:\n\"/thx_register\"コマンドを実行することで登録できます",
+          color: 'danger',
+          footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
+        }
+      ]
+    }
+  end
+
+  def not_receiver_registered
+    {
+      attachments: [
+        {
+          text: "あなたはまだThxに登録されていません.:ghost:\n\"/thx_register\"コマンドを実行することで登録できます",
+          color: 'danger',
+          footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
+        }
+      ]
+    }
   end
 end
