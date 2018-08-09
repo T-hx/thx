@@ -1,17 +1,19 @@
 module SlackReport
   class Base
-    include Batch
-    extend MessageBuilder
+    include ::Batch
 
     def self.report
-      @logger.info '[start] start thx weekly ranking'
+      puts '[start] start thx weekly ranking'
       notifier = Slack::Notifier.new(ENV['SLACK_WEBHOOK_URL'])
       notifier.ping(build_message)
-      @logger.info '[end] end thx weekly ranking'
+    rescue => e
+      puts "[error] #{e.inspect}\n#{e.backtrace.join("\n")}"
+    ensure
+      puts "[end] end thx weekly ranking"
     end
 
     def self.build_message
-      raise 'Called abstract method'
+      'Called abstract method'
     end
   end
 end

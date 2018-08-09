@@ -16,5 +16,4 @@ class GiveThx
   ensure
     @logger.info "[end] give thx"
   end
-
 end
