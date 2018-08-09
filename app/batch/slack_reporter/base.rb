@@ -3,13 +3,13 @@ module SlackReport
     include ::Batch
 
     def self.report
-      @logger.info '[start] start thx weekly ranking'
+      puts '[start] start thx weekly ranking'
       notifier = Slack::Notifier.new(ENV['SLACK_WEBHOOK_URL'])
       notifier.ping(build_message)
     rescue => e
-      @logger.error "[error] #{e.inspect}\n#{e.backtrace.join("\n")}"
+      puts "[error] #{e.inspect}\n#{e.backtrace.join("\n")}"
     ensure
-      @logger.info "[end] end thx weekly ranking"
+      puts "[end] end thx weekly ranking"
     end
 
     def self.build_message
