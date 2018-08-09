@@ -11,7 +11,7 @@ json.attachments do
       end
       json.child! do
         json.title '総獲得数'
-        json.value "#{@user.received_thx}"
+        json.value "#{@user.received_thx}thx"
         json.short true
       end
       json.child! do
@@ -35,6 +35,6 @@ json.attachments do
         json.short true
       end
     end
-    json.footer '<#thx-info>でランキングやリリース情報が見れます。不具合や要望、お問い合わせは<#thx-deloper>でお願いします。'
+    json.footer '<#CC5LB48KV>でランキングやリリース情報が見れます。不具合や要望、お問い合わせは<#CC57Y681X>でお願いします。'
   end
 end
