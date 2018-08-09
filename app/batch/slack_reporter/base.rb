@@ -1,6 +1,6 @@
 module SlackReport
   class Base
-    include Batch
+    include ::Batch
 
     def self.report
       @logger.info '[start] start thx weekly ranking'
