@@ -1,7 +1,6 @@
 module SlackReport
   class Base
     include Batch
-    extend SlackReport::MessageBuilder
 
     def self.report
       @logger.info '[start] start thx weekly ranking'
@@ -11,7 +10,7 @@ module SlackReport
     end
 
     def self.build_message
-      raise 'Called abstract method'
+      'Called abstract method'
     end
   end
 end
