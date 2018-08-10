@@ -3,7 +3,7 @@ module Slacks
     # /v1/slack
     resource 'slack' do
       resource 'thxes' do
-        # POST /v1/slacks/thxes
+        # POST /v1/slack/thxes
         desc 'thx残高の確認'
         params do
           requires :team_id, type: String, desc: 'チームID'
@@ -67,13 +67,13 @@ module Slacks
           end
         end
 
-        # POST /v1/slacks/thxes/help
+        # POST /v1/slack/thxes/help
         desc 'thxのhelp'
         params do
           requires :team_id, type: String, desc: 'チームID'
           requires :user_id, type: String, desc: 'ユーザID'
         end
-        post 'help', jbuilder: 'v1/slacks/help' do
+        post 'help', jbuilder: 'v1/slack/help' do
         end
 
         # POST /v1/slacks/thxes/stamp
@@ -81,7 +81,7 @@ module Slacks
         # TODO: アクティブユーザーが増えたら実装する
         # TODO: リファクタ
         desc '追thx送信'
-        post 'stamp', jbuilder: 'v1/slacks/stamp_thx' do
+        post 'stamp', jbuilder: 'v1/slack/stamp_thx' do
           st_params = strong_params(params)
           payload = JSON.parse(st_params[:payload])
           s_id = payload['actions'][0]['value'].split(' ')[1]
@@ -110,16 +110,14 @@ module Slacks
             end
           end
         end
-      end
 
-      resource 'user' do
-        # POST /v1/slacks/thxes
+        # POST /v1/slack/register
         desc 'ユーザーの追加'
         params do
           requires :team_id, type: String, desc: 'チームID'
           requires :user_id, type: String, desc: 'ユーザID'
         end
-        post 'add', jbuilder: 'v1/slacks/register' do
+        post 'register', jbuilder: 'v1/slack/register' do
           st_params = strong_params(params).permit(:team_id, :user_id)
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           if user.present?
@@ -130,14 +128,14 @@ module Slacks
             res_user = pretty_res['user']
             ApplicationRecord::transaction do
               @user = User.new(name: res_user['name'],
-                              email: res_user['profile']['email'],
-                              slack_user_id: res_user['id'],
-                              slack_team_id: res_user['team_id'],
-                              address: SecureRandom.hex,
-                              thx_balance: User::INIT_THX,
-                              password: User::SLACK_USER_DUMMY_PASSWORD,
-                              password_confirmation: User::SLACK_USER_DUMMY_PASSWORD,
-                              verified: true)
+                               email: res_user['profile']['email'],
+                               slack_user_id: res_user['id'],
+                               slack_team_id: res_user['team_id'],
+                               address: SecureRandom.hex,
+                               thx_balance: User::INIT_THX,
+                               password: User::SLACK_USER_DUMMY_PASSWORD,
+                               password_confirmation: User::SLACK_USER_DUMMY_PASSWORD,
+                               verified: true)
               @user.save!
             end
           end
