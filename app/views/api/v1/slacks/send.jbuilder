@@ -4,5 +4,6 @@ json.attachments do
     json.color 'good'
     json.title 'comment'
     json.text @thx_transaction.comment
+    json.response_type 'in_channel'
   end
 end

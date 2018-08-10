@@ -111,7 +111,7 @@ module Slacks
           end
         end
 
-        # POST /v1/slack/register
+        # POST /v1/slack/thxes/register
         desc 'ユーザーの追加'
         params do
           requires :team_id, type: String, desc: 'チームID'
@@ -121,7 +121,15 @@ module Slacks
           st_params = strong_params(params).permit(:team_id, :user_id)
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           if user.present?
-            already_registered
+            {
+              attachments: [
+                {
+                  text: 'あなたはもうすでにThxに参加しています :ok:',
+                  color: 'good',
+                  footer: footer
+                }
+              ]
+            }
           else
             res = Net::HTTP.get(URI.parse("https://slack.com/api/users.info?token=#{ENV['SLACK_TOKEN']}&user=#{st_params[:user_id]}&pretty=1"))
             pretty_res = JSON.parse(res)
