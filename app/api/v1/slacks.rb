@@ -119,18 +119,8 @@ module Slacks
         end
         post 'register', jbuilder: 'v1/slacks/register' do
           st_params = strong_params(params).permit(:team_id, :user_id)
-          user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
-          if user.present?
-            {
-              attachments: [
-                {
-                  text: 'あなたはもうすでにThxに参加しています :ok:',
-                  color: 'good',
-                  footer: 'hogehoge'
-                }
-              ]
-            }
-          else
+          @user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
+          if @user.nil?
             res = Net::HTTP.get(URI.parse("https://slack.com/api/users.info?token=#{ENV['SLACK_TOKEN']}&user=#{st_params[:user_id]}&pretty=1"))
             pretty_res = JSON.parse(res)
             res_user = pretty_res['user']
