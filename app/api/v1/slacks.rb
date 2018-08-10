@@ -126,7 +126,7 @@ module Slacks
                 {
                   text: 'あなたはもうすでにThxに参加しています :ok:',
                   color: 'good',
-                  footer: footer
+                  footer: 'hogehoge'
                 }
               ]
             }
