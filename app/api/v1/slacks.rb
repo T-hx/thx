@@ -81,7 +81,7 @@ module Slacks
         # TODO: アクティブユーザーが増えたら実装する
         # TODO: リファクタ
         desc '追thx送信'
-        post 'stamp', jbuilder: '/v1/slacks/stamp_thx' do
+        post 'stamp', jbuilder: 'v1/slacks/stamp_thx' do
           st_params = strong_params(params)
           payload = JSON.parse(st_params[:payload])
           s_id = payload['actions'][0]['value'].split(' ')[1]
@@ -119,7 +119,7 @@ module Slacks
           requires :team_id, type: String, desc: 'チームID'
           requires :user_id, type: String, desc: 'ユーザID'
         end
-        post 'add', jbuilder: '/vi/slacks/user_register' do
+        post 'add', jbuilder: 'vi/slacks/user_register' do
           st_params = strong_params(params).permit(:team_id, :user_id)
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           if user.present?
