@@ -73,7 +73,7 @@ module Slacks
           requires :team_id, type: String, desc: 'チームID'
           requires :user_id, type: String, desc: 'ユーザID'
         end
-        post 'help', jbuilder: 'v1/slacks/send' do
+        post 'help', jbuilder: 'v1/slacks/help' do
         end
 
         # POST /v1/slacks/thxes/stamp
