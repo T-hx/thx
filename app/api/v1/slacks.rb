@@ -25,24 +25,9 @@ module Slacks
         post 'comment' do
           st_params = strong_params(params).permit(:team_id, :user_id)
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
-          if user
-            thxes = ThxTransaction.where(receiver: user).limit(20)
-            @text = thxes.map {|thx| "#{thx.thx} thx from #{thx.sender&.name}\n#{thx.comment}"}.join("\n\n")
-          else
-            {
-              icon_emoji: ':thx:',
-              attachments: [
-                {
-                  text: "あなたはまだThxに登録されていません.:ghost:\n\"/thx_register\"コマンドを実行することで登録できます",
-                  color: 'danger',
-                },
-                {
-                  fallback: "",
-                  footer: "#thx_infoでリリース情報&ランキングが見れます。不具合は#thx_developerまでお知らせください"
-                }
-              ]
-            }
-          end
+          thxes = ThxTransaction.where(receiver: user).limit(20)
+          @text = thxes.map {|thx| "#{thx.thx} thx from #{thx.sender&.name}\n#{thx.comment}"}.join("\n\n")
+          not_registered unless user
         end
 
         # POST /v1/slack/thxes/send
