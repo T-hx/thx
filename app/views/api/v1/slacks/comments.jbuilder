@@ -1,6 +1,6 @@
 json.attachments do
   json.child! do
-    json.color '#F07D40'
+    json.color 'good'
     json.title 'Thx List'
     json.text "受信したthxの直近10件を表示しています\n "
     json.title_link 'https://api.slack.com/'

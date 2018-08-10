@@ -1,6 +1,6 @@
 json.attachments do
   json.child! do
-    json.color '#36a64f'
+    json.color 'good'
     json.title "My Thx ( #{@user.name} )"
     json.title_link 'https://api.slack.com/'
     json.fields do
