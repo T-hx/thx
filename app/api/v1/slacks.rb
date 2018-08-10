@@ -15,14 +15,13 @@ module Slacks
           not_registered unless @user
         end
 
-        # POST /v1/slack/thxes/comment
-        # TODO: コメントがnilのものは表示しない
+        # POST /v1/slack/thxes/comments
         desc 'show comments'
         params do
           requires :team_id, type: String, desc: 'チームID'
           requires :user_id, type: String, desc: 'ユーザID'
         end
-        post 'comment' do
+        post 'comments', jbuilder: 'v1/slacks/comments' do
           st_params = strong_params(params).permit(:team_id, :user_id)
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           thxes = ThxTransaction.where(receiver: user).limit(20)
