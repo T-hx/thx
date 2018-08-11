@@ -23,10 +23,8 @@ module Slacks
         end
         post 'comments', jbuilder: 'v1/slacks/comments' do
           st_params = strong_params(params).permit(:team_id, :user_id)
-          user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
-          thxes = ThxTransaction.where(receiver: user).last(10)
-          @text = thxes.map {|thx| "#{thx.thx} thx from #{thx.sender&.name}\n#{thx.comment}"}.join("\n\n")
-          not_registered unless user
+          @user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
+          @thxes = ThxTransaction.where(receiver: @user).last(10)
         end
 
         # POST /v1/slack/thxes/send
