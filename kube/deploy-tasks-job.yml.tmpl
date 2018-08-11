@@ -16,6 +16,9 @@ spec:
         - name: deploy-tasks-runner
           image: $IMAGE
           command: ["./script/deploy_task.sh"]
+          resources:
+            requests:
+              cpu: 10m
           env:
             - name: SECRET_KEY_BASE
               valueFrom:
