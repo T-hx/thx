@@ -12,7 +12,6 @@ module Slacks
         post '/', jbuilder: 'v1/slacks/me' do
           st_params = strong_params(params).permit(:team_id, :user_id)
           @user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
-          not_registered unless @user
         end
 
         # POST /v1/slack/thxes/comments

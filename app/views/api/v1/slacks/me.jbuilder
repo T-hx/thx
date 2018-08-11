@@ -1,4 +1,5 @@
 json.attachments do
+
   json.child! do
     json.color 'good'
     json.title "My Thx ( #{@user.name} )"
