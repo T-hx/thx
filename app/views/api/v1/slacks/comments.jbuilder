@@ -1,4 +1,3 @@
-return json.partial! 'partial/not_registered' if @user.nil?
 json.attachments do
   json.child! do
     json.color 'good'
@@ -6,7 +5,7 @@ json.attachments do
     json.text 'あなたに送られたthx一覧です。直近の10件を表示しています。'
     json.title_link 'https://api.slack.com/'
     json.fields @thxes do |thx|
-      json.title "#{thx.thx} from #{thx.sender&.name}"
+      json.title "#{thx.thx}thx from #{thx.sender&.name}"
       json.value thx.comment
       json.short true
     end
