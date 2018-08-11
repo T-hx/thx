@@ -65,7 +65,11 @@ module Endpoint
     end
 
     rescue_from :all do |e|
-      error_format(e.message, '予期せぬエラーが発生しました。', 500)
+      if e.cause.class == Mysql2::Error
+        error_format('Database error occurred', '予期せぬエラーが発生しました。', 500)
+      else
+        error_format(e.message, '予期せぬエラーが発生しました。', 500)
+      end
     end
 
     # GET /_health
