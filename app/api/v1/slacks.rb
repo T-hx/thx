@@ -40,7 +40,7 @@ module Slacks
             sender = User.find_by(slack_user_id: st_params[:user_id], slack_team_id: st_params[:team_id])
             max_thx = sender&.thx_balance
             @send_data = {receiver: receiver, sender: sender, max_thx: max_thx, thx: thx.to_i}
-            if receiver && sender && max_thx > thx.to_i
+            if receiver && sender && max_thx > thx.to_i && sender != receiver
               ApplicationRecord.transaction do
                 @thx_transaction = ThxTransaction.new(thx_hash: SecureRandom.hex,
                                                      sender: sender,
