@@ -56,7 +56,7 @@ module Slacks
           end
         end
 
-        # POST /v1/slacks/thxes/help
+        # POST /v1/slack/thxes/help
         desc 'thxのhelp'
         params do
           requires :team_id, type: String, desc: 'チームID'
@@ -65,7 +65,7 @@ module Slacks
         post 'help', jbuilder: 'v1/slacks/help' do
         end
 
-        # POST /v1/slacks/thxes/register
+        # POST /v1/slack/thxes/register
         desc 'ユーザーの追加'
         params do
           requires :team_id, type: String, desc: 'チームID'
