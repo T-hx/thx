@@ -3,7 +3,7 @@ module Slacks
     # /v1/slack
     resource 'slack' do
       resource 'thxes' do
-        # POST /v1/slacks/thxes
+        # POST /v1/slack/thxes
         desc 'thx残高,獲得数などの確認'
         params do
           requires :team_id, type: String, desc: 'チームID'
@@ -14,7 +14,7 @@ module Slacks
           @user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
         end
 
-        # POST /v1/slacks/thxes/comments
+        # POST /v1/slack/thxes/comments
         desc 'show comments'
         params do
           requires :team_id, type: String, desc: 'チームID'
@@ -26,7 +26,7 @@ module Slacks
           @thxes = ThxTransaction.where(receiver: @user).last(10)
         end
 
-        # POST /v1/slacks/thxes/send
+        # POST /v1/slack/thxes/send
         desc 'thxの送信'
         params do
           requires :team_id, type: String, desc: 'チームID'
@@ -56,7 +56,7 @@ module Slacks
           end
         end
 
-        # POST /v1/slacks/thxes/help
+        # POST /v1/slack/thxes/help
         desc 'thxのhelp'
         params do
           requires :team_id, type: String, desc: 'チームID'
@@ -65,7 +65,7 @@ module Slacks
         post 'help', jbuilder: 'v1/slacks/help' do
         end
 
-        # POST /v1/slacks/thxes/register
+        # POST /v1/slack/thxes/register
         desc 'ユーザーの追加'
         params do
           requires :team_id, type: String, desc: 'チームID'
@@ -76,7 +76,6 @@ module Slacks
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           if user.nil?
             res = Net::HTTP.get(URI.parse("https://slack.com/api/users.info?token=#{ENV['SLACK_TOKEN']}&user=#{st_params[:user_id]}&pretty=1"))
-            puts res
             pretty_res = JSON.parse(res)
             res_user = pretty_res['user']
             ApplicationRecord::transaction do
