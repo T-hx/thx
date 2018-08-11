@@ -6,6 +6,7 @@ json.attachments do
     json.text 'あなたに送られたthx一覧です。直近の10件を表示しています。'
     json.title_link 'https://api.slack.com/'
     json.fields @thxes do |thx|
+      puts thx
       json.title "#{thx.thx} from #{thx.sender.name}"
       json.text thx.comment
       json.short true
