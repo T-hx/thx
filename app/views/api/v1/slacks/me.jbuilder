@@ -1,5 +1,4 @@
 json.attachments do
-
   json.child! do
     json.color 'good'
     json.title "My Thx ( #{@user.name} )"
@@ -21,17 +20,7 @@ json.attachments do
         json.short true
       end
       json.child! do
-        json.title '総受信ランキング'
-        json.value 'processing'
-        json.short true
-      end
-      json.child! do
-        json.title '総送信ランキング'
-        json.value 'processing'
-        json.short true
-      end
-      json.child! do
-        json.title '総獲得数ランキング'
+        json.title '総受信数'
         json.value 'processing'
         json.short true
       end
