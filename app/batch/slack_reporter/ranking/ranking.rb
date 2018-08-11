@@ -33,7 +33,7 @@ module SlackReport
   end
 
   class MonthlyThxRanking < Base
-    extend MessageBuilder
+    extend Ranking::MessageBuilder
     
     START_DATE = Date.yesterday.beginning_of_month
     END_DATE = Date.yesterday.end_of_month
