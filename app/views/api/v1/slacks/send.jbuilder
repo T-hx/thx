@@ -6,6 +6,8 @@ json.attachments do
       json.partial! 'v1/slacks/partial/_not_registered'
     elsif @send_data[:receiver].nil?
       json.partial! 'v1/slacks/partial/_not_receiver_registered'
+    elsif @send_data[:sender] == @send_data[:receiver]
+      json.partial! 'v1/slacks/partial/_error_send_myself'
     elsif @send_data[:max_thx] < @send_data[:thx]
       json.partial! 'v1/slacks/partial/_not_enough_thx'
     elsif @send_data.all? {|k, v| v.present? }
