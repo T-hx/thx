@@ -42,7 +42,7 @@ module Slacks
             @send_data = {receiver: receiver, sender: sender, max_thx: max_thx, thx: thx.to_i}
             if receiver && sender && max_thx > thx.to_i && sender != receiver
               ApplicationRecord.transaction do
-                @thx_transaction = ThxTransaction.new(thx_hash: SecureRandom.hex,
+                thx_transaction = ThxTransaction.new(thx_hash: SecureRandom.hex,
                                                      sender: sender,
                                                      receiver: receiver,
                                                      thx: thx.to_i,
