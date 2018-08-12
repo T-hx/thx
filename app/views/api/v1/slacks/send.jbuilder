@@ -1,4 +1,4 @@
-json.response_type 'in_channel' if @send_data.all? {|k, v| v.present?}
+json.response_type 'in_channel' if should_ephemeral?
 json.attachments do
   json.child! do
     if @send_data.blank?
@@ -23,4 +23,10 @@ json.attachments do
       end
     end
   end
+end
+
+def should_ephemeral?
+  @send_data.blank? || @send_data[:sender].nil? || @send_data[:receiver].nil? ||
+    @send_data[:sender] == @send_data[:receiver] || @send_data[:max_thx] < @send_data[:thx] ||
+    !(@send_data.all? {|k, v| v.present?})
 end
