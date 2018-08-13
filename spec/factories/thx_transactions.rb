@@ -3,7 +3,7 @@ FactoryBot.define do
     thx_hash { SecureRandom.hex }
     sender nil
     receiver nil
-    thx { rand(1000) }
+    thx 100
     comment { ["いつもありがとうございます", "感謝します", "これからも宜しくお願いします", "Thank you!"].sample }
   end
 end
