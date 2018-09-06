@@ -15,7 +15,7 @@ spec:
         cloud.google.com/gke-nodepool: default-pool
       containers:
         - name: web
-          image: asia.gcr.io/techperk-201607/thx_app_prod:1.5.5
+          image: asia.gcr.io/techperk-201607/thx_app_prod:1.6.0
           resources:
             requests:
               cpu: 200m
