@@ -15,10 +15,10 @@ spec:
         cloud.google.com/gke-nodepool: default-pool
       containers:
         - name: web
-          image: asia.gcr.io/techperk-201607/thx_app_prod:1.4.0
+          image: asia.gcr.io/techperk-201607/thx_app_prod:1.6.1
           resources:
             requests:
-              cpu: 10m
+              cpu: 200m
           ports:
             - containerPort: 3000
           livenessProbe:
