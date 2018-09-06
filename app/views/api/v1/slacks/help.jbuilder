@@ -21,8 +21,8 @@ json.attachments do
       end
       json.child! do
         json.title 'Thxシステムを利用したい'
-        json.value "(コマンド)\n/thx-regster\n\n引数はいりません\n\nはじめてthxを利用する場合はこのコマンドが必要になる可能性があります。基本的には新しく入社された方は自動で登録されます。",
-                   json.short false
+        json.value "(コマンド)\n/thx-regster\n\n引数はいりません\n\nはじめてthxを利用する場合はこのコマンドが必要になる可能性があります。基本的には新しく入社された方は自動で登録されます。"
+        json.short false
       end
     end
     json.partial! 'v1/slacks/partial/_footer'
