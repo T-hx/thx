@@ -1,4 +1,4 @@
-module SlackReporter
+module SlackReport
   class Base
     include ::Batch
     class << self
