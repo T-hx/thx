@@ -92,6 +92,28 @@ module Slacks
             end
           end
         end
+
+        # POST /v1/slack/thxes/report
+        desc 'レポート出力'
+        params do
+          requires :team_id, type: String, desc: 'チームID'
+          requires :user_id, type: String, desc: 'ユーザーID'
+          requires :text, type: String, desc: 'レポートの種類'
+        end
+        post 'report', jbuilder: 'v1/slacks/report' do
+          st_params = strong_params(params).permit(:team_id, :user_id, :text)
+          user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
+          if user == ENV[:REPORT_USER]
+            begin
+              Object.const_get("SlackReporter::#{st_params[:text]}").report
+              @message = "#{st_params[:text]}レポート出力に成功しました"
+            rescue
+              @message = 'レポートの出力に失敗しました'
+            end
+          else
+            @message = 'レポート出力の権限がありません'
+          end
+        end
       end
     end
   end
