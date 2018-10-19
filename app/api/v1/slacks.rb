@@ -102,8 +102,7 @@ module Slacks
         end
         post 'report', jbuilder: 'v1/slacks/report' do
           st_params = strong_params(params).permit(:team_id, :user_id, :text)
-          user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
-          if user == ENV[:REPORT_USER]
+          if st_params[:user_id] == ENV[:REPORT_USER]
             begin
               Object.const_get("SlackReporter::#{st_params[:text]}").report
               @message = "#{st_params[:text]}レポート出力に成功しました"
