@@ -40,3 +40,18 @@ spec:
                 secretKeyRef:
                   name: app-secrets
                   key: mysql_password
+            - name: SLACK_WEEBHOOK_URL
+              valueFrom:
+                secretKeyRef:
+                  name: thx-slack-secret
+                  key: slack_webhook_url
+            - name: SLACK_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: thx-slack-secret
+                  key: slack_api_token
+            - name: REPORT_USER_ID
+              valueFrom:
+                secretKeyRef:
+                  name: thx-slack-secret
+                  key: report_user_id
