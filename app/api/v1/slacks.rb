@@ -102,7 +102,7 @@ module Slacks
         end
         post 'report', jbuilder: 'v1/slacks/report' do
           st_params = strong_params(params).permit(:team_id, :user_id, :text)
-          if st_params[:user_id] == ENV[:REPORT_USER]
+          if st_params[:user_id] == ENV['REPORT_USER_ID']
             begin
               Object.const_get("SlackReporter::#{st_params[:text]}").report
               @message = "#{st_params[:text]}レポート出力に成功しました"
@@ -110,7 +110,7 @@ module Slacks
               @message = 'レポートの出力に失敗しました'
             end
           else
-            @message = 'レポート出力の権限がありません'
+            @message = "レポート出力の権限がありません"
           end
         end
       end
