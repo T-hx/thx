@@ -38,9 +38,6 @@ RUN npm cache clean && \
     n stable && \
     ln -sf /usr/local/bin/node /usr/bin/node && \
     apt-get purge -y nodejs npm
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
-    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-    apt-get update && apt-get install -y yarn
 COPY package.json* ./
 COPY yarn.lock* ./
 RUN mkdir log && touch log/$RAILS_ENV.log
