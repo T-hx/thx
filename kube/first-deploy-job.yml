@@ -1,24 +1,24 @@
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: web
-  labels:
-    name: web
+  name: first-deploy-tasks
 spec:
-  replicas: 1
   template:
     metadata:
+      name: first-deploy-tasks
       labels:
-        name: web
+        name: first-deploy-tasks
     spec:
       nodeSelector:
         cloud.google.com/gke-nodepool: default-pool
+      restartPolicy: Never
       containers:
-        - name: web
-          image: asia.gcr.io/techperk-201607/thx_app_prod:2.0.2
-          ports:
-            - containerPort: 3000
-          command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
+        - name: first-deploy-tasks-runner
+          image: $IMAGE
+          command: ["./script/first_deploy_task.sh"]
+          resources:
+            requests:
+              cpu: 50m
           env:
             - name: SECRET_KEY_BASE
               valueFrom:
