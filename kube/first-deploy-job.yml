@@ -1,21 +1,21 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: deploy-tasks
+  name: first-deploy-tasks
 spec:
   template:
     metadata:
-      name: deploy-tasks
+      name: first-deploy-tasks
       labels:
-        name: deploy-tasks
+        name: first-deploy-tasks
     spec:
       nodeSelector:
         cloud.google.com/gke-nodepool: default-pool
       restartPolicy: Never
       containers:
-        - name: deploy-tasks-runner
+        - name: first-deploy-tasks-runner
           image: $IMAGE
-          command: ["./script/deploy_task.sh"]
+          command: ["./script/first_deploy_task.sh"]
           resources:
             requests:
               cpu: 50m

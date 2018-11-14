@@ -15,26 +15,10 @@ spec:
         cloud.google.com/gke-nodepool: default-pool
       containers:
         - name: web
-          image: asia.gcr.io/techperk-201607/thx_app_prod:1.6.1
-          resources:
-            requests:
-              cpu: 200m
+          image: asia.gcr.io/techperk-201607/thx_app_prod:2.0.2
           ports:
             - containerPort: 3000
-          livenessProbe:
-            httpGet:
-              path: /_health
-              port: 3000
-            initialDelaySeconds: 120
-            timeoutSeconds: 1
-            periodSeconds: 60
-          readinessProbe:
-            httpGet:
-              path: /_health
-              port: 3000
-            initialDelaySeconds: 120
-            timeoutSeconds: 1
-            periodSeconds: 60
+          command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
           env:
             - name: SECRET_KEY_BASE
               valueFrom:
@@ -56,3 +40,18 @@ spec:
                 secretKeyRef:
                   name: app-secrets
                   key: mysql_password
+            - name: SLACK_WEBHOOK_URL
+              valueFrom:
+                secretKeyRef:
+                  name: thx-slack-secret
+                  key: slack_webhook_url
+            - name: SLACK_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: thx-slack-secret
+                  key: slack_api_token
+            - name: REPORT_USER_ID
+              valueFrom:
+                secretKeyRef:
+                  name: thx-slack-secret
+                  key: report_user_id
