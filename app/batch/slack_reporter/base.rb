@@ -2,7 +2,7 @@ module SlackReporter
   class Base
     include ::Batch
     class << self
-      def report
+      def run
         puts "[start] #{self.name} report start"
         notifier = Slack::Notifier.new(ENV['SLACK_WEBHOOK_URL'])
         notifier.ping(build_message)
