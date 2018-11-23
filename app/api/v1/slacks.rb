@@ -93,14 +93,14 @@ module Slacks
           end
         end
 
-        # POST /v1/slack/thxes/slack_reporter
+        # POST /v1/slack/thxes/report
         desc 'レポート出力(slash コマンド)'
         params do
           requires :team_id, type: String, desc: 'チームID'
           requires :user_id, type: String, desc: 'ユーザーID'
           requires :text, type: String, desc: 'レポートの種類'
         end
-        post 'report_command', jbuilder: 'v1/slacks/slack_reporter' do
+        post 'report_command', jbuilder: 'v1/slacks/report' do
           st_params = strong_params(params).permit(:team_id, :user_id, :text)
           if st_params[:user_id] == ENV['REPORT_USER_ID']
             begin
