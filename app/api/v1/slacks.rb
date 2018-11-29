@@ -128,7 +128,7 @@ module Slacks
               Object.const_get("#{st_params[:job_type]}").run
               {job_type: st_params[:job_type], status: 'success'}
             rescue => ex
-              {job_type: st_params[:job_type], status: 'error', reason: ex.backtrace[0..5]}
+              {job_type: st_params[:job_type], status: 'error', reason: "#{ex.message}\n#{ex.backtrace[0..5]}"}
             end
           else
             {job_type: st_params[:job_type], status: 'error', reason: 'invalid token'}
