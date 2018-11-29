@@ -98,14 +98,14 @@ module Slacks
         params do
           requires :team_id, type: String, desc: 'チームID'
           requires :user_id, type: String, desc: 'ユーザーID'
-          requires :text, type: String, desc: 'レポートの種類'
+          requires :job_type, type: String, desc: 'レポートの種類'
         end
         post 'report_command', jbuilder: 'v1/slacks/report' do
-          st_params = strong_params(params).permit(:team_id, :user_id, :text)
+          st_params = strong_params(params).permit(:team_id, :user_id, :job_type)
           if st_params[:user_id] == ENV['REPORT_USER_ID']
             begin
-              Object.const_get("#{st_params[:text]}").run
-              @message = "#{st_params[:text]}レポート出力に成功しました"
+              Object.const_get("#{st_params[:job_type]}").run
+              @message = "#{st_params[:job_type]}レポート出力に成功しました"
             rescue
               @message = 'レポートの出力に失敗しました'
             end
@@ -126,12 +126,12 @@ module Slacks
             begin
               # ex GiveThx, SlackReporter::MonthlyThxRanking
               Object.const_get("#{st_params[:job_type]}").run
-              {type: st_params[:job_type], status: 'success'}
+              {job_type: st_params[:job_type], status: 'success'}
             rescue => ex
-              {type: st_params[:job_type], status: 'error', reason: ex.message}
+              {job_type: st_params[:job_type], status: 'error', reason: ex.backtrace[0..5]}
             end
           else
-            {type: st_params[:job_type], status: 'error', reason: 'invalid token'}
+            {job_type: st_params[:job_type], status: 'error', reason: 'invalid token'}
           end
         end
       end
