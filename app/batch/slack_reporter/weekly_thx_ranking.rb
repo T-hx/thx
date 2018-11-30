@@ -2,12 +2,12 @@ module SlackReporter
   class WeeklyThxRanking < Base
     extend RankingMessageBase
 
-    START_DATE = Date.yesterday.beginning_of_week
-    END_DATE = Date.yesterday.end_of_week
+    START_DATE = Time.current.yesterday.beginning_of_week
+    END_DATE = Time.current.yesterday.end_of_week
 
     def self.build_message
       {
-        "text": "*Thx Weekly Ranking (#{START_DATE}~#{END_DATE})* :tada:",
+        "text": "*Thx Weekly Ranking (#{START_DATE.to_date}~#{END_DATE.to_date})* :tada:",
         "attachments": [
           {
             "color": "good",
