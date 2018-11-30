@@ -2,12 +2,12 @@ module SlackReporter
   class MonthlyThxRanking < Base
     extend RankingMessageBase
 
-    START_DATE = Date.yesterday.beginning_of_month
-    END_DATE = Date.yesterday.end_of_month
+    START_DATE = Time.current.yesterday.beginning_of_month
+    END_DATE = Time.current.yesterday.end_of_month
 
     def self.build_message
       {
-        "text": "*Thx Monthly Ranking (#{START_DATE}~#{END_DATE})* :tada:",
+        "text": "*Thx Monthly Ranking (#{START_DATE.to_date}~#{END_DATE.to_date})* :tada:",
         "attachments": [
           {
             "color": "good",
