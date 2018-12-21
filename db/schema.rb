@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20180517083548) do
 
-  create_table "access_tokens", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "access_tokens", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
     t.bigint "user_id"
     t.string "token"
     t.string "refresh_token"
@@ -25,13 +25,13 @@ ActiveRecord::Schema.define(version: 20180517083548) do
     t.index ["user_id"], name: "index_access_tokens_on_user_id"
   end
 
-  create_table "giving_histories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "giving_histories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
     t.date "giving_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "thx_transactions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "thx_transactions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
     t.string "thx_hash"
     t.bigint "sender_id"
     t.bigint "receiver_id"
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20180517083548) do
     t.index ["sender_id"], name: "index_thx_transactions_on_sender_id"
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
     t.string "name"
