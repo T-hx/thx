@@ -19,12 +19,12 @@ json.attachments do
         end
         json.child! do
           json.title '総送信数'
-          json.value 'processing'
+          json.value "#{@user.senders.count}"
           json.short true
         end
         json.child! do
           json.title '総受信数'
-          json.value 'processing'
+          json.value "#{@user.receivers.count}"
           json.short true
         end
       end
