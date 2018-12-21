@@ -98,14 +98,14 @@ module Slacks
         params do
           requires :team_id, type: String, desc: 'チームID'
           requires :user_id, type: String, desc: 'ユーザーID'
-          requires :job_type, type: String, desc: 'レポートの種類'
+          requires :text, type: String, desc: 'レポートの種類'
         end
         post 'report_command', jbuilder: 'v1/slacks/report' do
-          st_params = strong_params(params).permit(:team_id, :user_id, :job_type)
+          st_params = strong_params(params).permit(:team_id, :user_id, :text)
           if st_params[:user_id] == ENV['REPORT_USER_ID']
             begin
-              Object.const_get("#{st_params[:job_type]}").run
-              @message = "#{st_params[:job_type]}レポート出力に成功しました"
+              Object.const_get("#{st_params[:text]}").run
+              @message = "#{st_params[:text]}レポート出力に成功しました"
             rescue
               @message = 'レポートの出力に失敗しました'
             end
