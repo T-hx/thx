@@ -4,7 +4,7 @@ ENV APP_ROOT /thx
 WORKDIR $APP_ROOT
 RUN \
     apt-get update -qq && \
-    apt-get install -y build-essential nodejs
+    apt-get install -y build-essential nodejs cron
 COPY Gemfile $APP_ROOT
 COPY Gemfile.lock $APP_ROOT
 RUN \

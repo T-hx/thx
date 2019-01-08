@@ -5,7 +5,7 @@
 
 # Example:
 #
-# set :output, "/path/to/my/cron_log.log"
+# set :output, "log/cron_log.log"
 #
 # every 2.hours do
 #   command "/usr/bin/some_great_command"
@@ -19,6 +19,12 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 1.day, at: 'midnight' do
-  bundle_runner "GiveThx.run"
+rails_env = ENV['RAILS_ENV'] ||= 'production'
+ENV.each { |k, v| env(k, v) }
+set :output, "log/cron.log"
+set :environment, rails_env
+
+every :monday, at: '3am' do
+  runner 'SlackReporter::WeeklyThxRanking.run'
 end
+

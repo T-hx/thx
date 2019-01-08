@@ -21,7 +21,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.development
-    command: bash ./service_start.sh
+    command: bash ./script/service_start.sh
     volumes:
       - .:/thx
     ports:

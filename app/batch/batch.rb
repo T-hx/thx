@@ -2,6 +2,6 @@
 module Batch
   extend ActiveSupport::Concern
   included do
-    @logger = Logger.new(Rails.root.join("log", "#{Rails.env}.log"))
+    @@logger = Logger.new(Rails.root.join("log", "#{Rails.env}_batch.log"))
   end
 end

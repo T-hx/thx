@@ -2,7 +2,7 @@ class GiveThx
   include Batch
 
   def self.run
-    @logger.info "[start] give thx"
+    @@logger.info "[start] give thx"
     giving_history = GivingHistory.order("id desc").limit(1)
     if giving_history.blank? || (giving_history.first.giving_date + GivingHistory::GIVING_PERIOD) <= Time.zone.today
       ApplicationRecord.transaction do
@@ -12,8 +12,8 @@ class GiveThx
       end
     end
   rescue => e
-    @logger.error "[error] #{e.inspect}\n#{e.backtrace.join("\n")}"
+    @@logger.error "[error] #{e.inspect}\n#{e.backtrace.join("\n")}"
   ensure
-    @logger.info "[end] give thx"
+    @@logger.info "[end] give thx"
   end
 end
