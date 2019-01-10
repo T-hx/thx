@@ -7,10 +7,10 @@ jobs:
       - checkout
       - run:
           name: docker-compose build
-          command: docker-compose build
+          command: docker-compose -f docker-compose.test.yml build
       - run:
           name: docker-compose up
-          command: docker-compose up -d
+          command: docker-compose -f docker-compose.test.yml up -d
       - run:
           name: sleep for waiting launch db
           command: sleep 20
