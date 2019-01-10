@@ -6,3 +6,5 @@ What this system can do is as below.
 
 * Employee Registration.
 * Send Thx each other. (Thx = bonus)
+
+* use
