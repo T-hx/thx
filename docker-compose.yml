@@ -20,7 +20,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: Dockerfile.development
+      dockerfile: Dockerfile.dev
     command: bash ./script/service_start.sh
     volumes:
       - .:/thx
