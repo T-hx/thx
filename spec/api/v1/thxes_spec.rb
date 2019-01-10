@@ -51,33 +51,7 @@ RSpec.describe Thxes::V1 do
     let(:user){ create(:user) }
     let(:thx){ rand(1000) }
     context '残高内の場合' do
-      it '取引情報が返る' do
-        request_body = {
-          address: user.address,
-          thx: thx
-        }
-        pattern = {
-          thx_hash: String,
-          sender: {
-            name: signed_in_user.name,
-            address: signed_in_user.address,
-            verified: signed_in_user.verified
-          },
-          receiver: {
-            name: user.name,
-            address: user.address,
-            verified: user.verified
-          },
-          thx: thx,
-          comment: nil,
-          created_at: String
-        }
-        post '/v1/users/thxes', :params => request_body, :headers => {'Authorization' => "Bearer #{signed_in_user.access_token.token}"}
-        expect(response.status).to eq 201
-        expect(response.body).to match_json_expression(pattern)
-        expect(User.find(signed_in_user.id).thx_balance).to eq((User::INIT_THX - thx))
-        expect(User.find(user.id).received_thx).to eq thx
-      end
+      it '取引情報が返る'
     end
 
     context '残高が足りない場合' do
