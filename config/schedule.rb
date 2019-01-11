@@ -25,6 +25,14 @@ set :output, "log/cron.log"
 set :environment, rails_env
 
 every :monday, at: '3am' do
-  runner 'SlackReporter::WeeklyThxRanking.run'
+  runner 'Batches::SlackReporter::WeeklyThxRanking.run'
+end
+
+every :month, at: '3am' do
+  runner 'Batches::SlackReporter::MonthlyThxRanking.run'
+end
+
+every :month, at: '3am' do
+  runner 'Batches::GiveThx.run'
 end
 

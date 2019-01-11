@@ -145,6 +145,10 @@ gem 'listen'
 gem 'pkg-config'
 gem 'tzinfo-data'
 
+# for logger
+gem 'ltsv'
+gem 'ltsvr'
+
 group :development, :test do
   gem 'pry-rails'
   gem 'pry-byebug'
