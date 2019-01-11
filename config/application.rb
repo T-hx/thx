@@ -56,8 +56,7 @@ module Thx
     config.autoload_paths += Dir["#{config.root}/lib/"]
     config.autoload_paths += Dir["#{config.root}/lib/batches/"]
     config.autoload_paths += Dir["#{config.root}/lib/logger/"]
-
-
+    
     config.middleware.use(Rack::Config) do |env|
       env['api.tilt.root'] = Rails.root.join 'app', 'views', 'api'
     end
@@ -72,7 +71,6 @@ module Thx
     config.i18n.default_locale = :ja
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
     
-
     # ヘルスチェック用
     config.heartbeat.application_version = '1.0.0'
     config.heartbeat.application_name = ['thx', Rails.env].join('_')

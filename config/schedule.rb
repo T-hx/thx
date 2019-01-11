@@ -35,4 +35,3 @@ end
 every :month, at: '3am' do
   runner 'Batches::GiveThx.run'
 end
-
