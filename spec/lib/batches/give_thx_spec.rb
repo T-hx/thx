@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe GiveThx do
+RSpec.describe Batches::GiveThx do
   describe 'システムからのThx自動付与' do
     context '付与履歴が存在しない場合' do
       let(:user){ create(:user, thx_balance: 100) }
       it 'thx_balanceがリセットされINIT_THXの値になる' do
         expect(user.thx_balance).to eq (100)
-        GiveThx.run
+        Batches::GiveThx.run
         expect(User.find(user.id).thx_balance).to eq User::INIT_THX
       end
     end
@@ -15,7 +15,7 @@ RSpec.describe GiveThx do
       it 'thx_balanceはリセットされず元のままの' do
         create(:giving_history, giving_date: Time.zone.today)
         user = create(:user, thx_balance: 100)
-        GiveThx.run
+        Batches::GiveThx.run
         expect(User.find(user.id).thx_balance).to eq 100
       end
     end
@@ -25,7 +25,7 @@ RSpec.describe GiveThx do
         create(:giving_history, giving_date: Time.zone.today)
         user = create(:user, thx_balance: 100)
         travel_to(Time.zone.today + GivingHistory::GIVING_PERIOD) do
-          GiveThx.run
+          Batches::GiveThx.run
           expect(User.find(user.id).thx_balance).to eq User::INIT_THX
         end
       end

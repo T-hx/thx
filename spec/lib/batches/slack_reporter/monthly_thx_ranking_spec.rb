@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SlackReporter::WeeklyThxRanking do
+RSpec.describe Batches::SlackReporter::MonthlyThxRanking do
   describe 'build_message' do
     before do
       create(:thx_transaction, sender: slack_user1, receiver: slack_user3)
@@ -13,11 +13,11 @@ RSpec.describe SlackReporter::WeeklyThxRanking do
     let(:slack_user1) {FactoryBot.create(:user)}
     let(:slack_user2) {FactoryBot.create(:user)}
     let(:slack_user3) {FactoryBot.create(:user)}
-    let(:start_date) {Date.yesterday.beginning_of_week}
-    let(:end_date) {Date.yesterday.end_of_week}
+    let(:start_date) {Date.yesterday.beginning_of_month}
+    let(:end_date) {Date.yesterday.end_of_month}
     let(:message) {
       {
-        "text": "*Thx Weekly Ranking (#{start_date}~#{end_date})* :tada:",
+        "text": "*Thx Monthly Ranking (#{start_date}~#{end_date})* :tada:",
         "attachments": [
           {
             "color": "good",
@@ -40,8 +40,8 @@ RSpec.describe SlackReporter::WeeklyThxRanking do
         ]
       }
     }
-    it '週間ランキングがフォーマットできること' do
-      expect(SlackReporter::WeeklyThxRanking.build_message).to eq message
+    it '月間ランキングがフォーマットできること' do
+      expect(Batches::SlackReporter::MonthlyThxRanking.build_message).to eq message
     end
   end
 end
