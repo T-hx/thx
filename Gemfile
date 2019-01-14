@@ -149,6 +149,8 @@ gem 'tzinfo-data'
 gem 'ltsv'
 gem 'ltsvr'
 
+gem 'bugsnag'
+
 group :development, :test do
   gem 'pry-rails'
   gem 'pry-byebug'
