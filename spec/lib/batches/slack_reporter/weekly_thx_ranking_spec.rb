@@ -13,11 +13,11 @@ RSpec.describe Batches::SlackReporter::WeeklyThxRanking do
     let(:slack_user1) {FactoryBot.create(:user)}
     let(:slack_user2) {FactoryBot.create(:user)}
     let(:slack_user3) {FactoryBot.create(:user)}
-    let(:start_date) {Date.yesterday.beginning_of_week}
-    let(:end_date) {Date.yesterday.end_of_week}
+    let(:start_date) {Time.current.yesterday.beginning_of_week}
+    let(:end_date) {Time.current.yesterday.end_of_week}
     let(:message) {
       {
-        "text": "*Thx Weekly Ranking (#{start_date}~#{end_date})* :tada:",
+        "text": "*Thx Weekly Ranking (#{start_date.to_date}~#{end_date.to_date})* :tada:",
         "attachments": [
           {
             "color": "good",

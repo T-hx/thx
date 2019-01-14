@@ -13,11 +13,11 @@ RSpec.describe Batches::SlackReporter::MonthlyThxRanking do
     let(:slack_user1) {FactoryBot.create(:user)}
     let(:slack_user2) {FactoryBot.create(:user)}
     let(:slack_user3) {FactoryBot.create(:user)}
-    let(:start_date) {Date.yesterday.beginning_of_month}
-    let(:end_date) {Date.yesterday.end_of_month}
+    let(:start_date) {Time.current.yesterday.beginning_of_month}
+    let(:end_date) {Time.current.yesterday.end_of_month}
     let(:message) {
       {
-        "text": "*Thx Monthly Ranking (#{start_date}~#{end_date})* :tada:",
+        "text": "*Thx Monthly Ranking (#{start_date.to_date}~#{end_date.to_date})* :tada:",
         "attachments": [
           {
             "color": "good",

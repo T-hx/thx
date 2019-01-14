@@ -2,7 +2,7 @@ module Batches
   class GiveThx
     def self.run
       BATCH_LOGGER.info ({
-        action: "Batches::#{self}#run",
+        action: "#{self}#run",
         time: Time.zone.now
       })
       giving_history = GivingHistory.order("id desc").limit(1)
@@ -14,12 +14,12 @@ module Batches
         end
       end
       BATCH_LOGGER.info ({
-        action: "Batches::#{self}#run",
+        action: "#{self}#run",
         result: 'success',
       })
     rescue => ex
       BATCH_LOGGER.error ({
-        action: "Batches::#{self}#run",
+        action: "#{self}#run",
         result: 'error',
         message: ex.message,
         backtrace: ex.backtrace
