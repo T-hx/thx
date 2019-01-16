@@ -56,6 +56,9 @@ module Thx
     config.autoload_paths += Dir["#{config.root}/lib/"]
     config.autoload_paths += Dir["#{config.root}/lib/batches/"]
     config.autoload_paths += Dir["#{config.root}/lib/logger/"]
+
+    # for production
+    config.paths.add 'lib', eager_load: true
     
     config.middleware.use(Rack::Config) do |env|
       env['api.tilt.root'] = Rails.root.join 'app', 'views', 'api'
