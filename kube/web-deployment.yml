@@ -55,3 +55,8 @@ spec:
                 secretKeyRef:
                   name: thx-slack-secret
                   key: report_user_id
+            - name: BUGSNAG_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: bugsnag-secret
+                  key: bugsnag_api_key

@@ -21,6 +21,7 @@ module Batches
             message: ex.message,
             backtrace: ex.backtrace
           })
+          ErrorReporter.notify_error(ex)
         end
 
         def build_message
