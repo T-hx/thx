@@ -75,7 +75,7 @@ module Slacks
           st_params = strong_params(params).permit(:team_id, :user_id)
           user = User.find_by(slack_team_id: st_params[:team_id], slack_user_id: st_params[:user_id])
           if user.nil?
-            res = Net::HTTP.get(URI.parse("https://slack.com/api/users.info?token=#{ENV['SLACK_TOKEN']}&user=#{st_params[:user_id]}&pretty=1"))
+            res = Net::HTTP.get(URI.parse("https://slack.com/api/users.info?token=#{ENV['SLACK_API_TOKEN']}&user=#{st_params[:user_id]}&pretty=1"))
             pretty_res = JSON.parse(res)
             res_user = pretty_res['user']
             ApplicationRecord::transaction do
@@ -90,48 +90,6 @@ module Slacks
                                verified: true)
               @user.save!
             end
-          end
-        end
-
-        # POST /v1/slack/thxes/report
-        desc 'レポート出力(slash コマンド)'
-        params do
-          requires :team_id, type: String, desc: 'チームID'
-          requires :user_id, type: String, desc: 'ユーザーID'
-          requires :text, type: String, desc: 'レポートの種類'
-        end
-        post 'report_command', jbuilder: 'v1/slacks/report' do
-          st_params = strong_params(params).permit(:team_id, :user_id, :text)
-          if st_params[:user_id] == ENV['REPORT_USER_ID']
-            begin
-              Object.const_get("#{st_params[:text]}").run
-              @message = "#{st_params[:text]}レポート出力に成功しました"
-            rescue
-              @message = 'レポートの出力に失敗しました'
-            end
-          else
-            @message = "レポート出力の権限がありません"
-          end
-        end
-
-        # POST /v1/slack/thxes/job
-        desc 'レポート出力(cron job)'
-        params do
-          requires :job_token, type: String, desc: 'token'
-          requires :job_type, type: String, desc: 'jobの種類'
-        end
-        post 'job' do
-          st_params = strong_params(params).permit(:job_token, :job_type)
-          if st_params[:job_token] == ENV['JOB_TOKEN']
-            begin
-              # ex GiveThx, SlackReporter::MonthlyThxRanking
-              Object.const_get("#{st_params[:job_type]}").run
-              {job_type: st_params[:job_type], status: 'success'}
-            rescue => ex
-              {job_type: st_params[:job_type], status: 'error', reason: "#{ex.message}\n#{ex.backtrace[0..5]}"}
-            end
-          else
-            {job_type: st_params[:job_type], status: 'error', reason: 'invalid token'}
           end
         end
       end
