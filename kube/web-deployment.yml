@@ -18,6 +18,9 @@ spec:
           image: asia.gcr.io/techperk-201607/thx_app_prod:2.2.2
           ports:
             - containerPort: 3000
+          resources:
+            requests:
+              cpu: 20m
           command: ["bash", "./script/service_start.sh"]
           env:
             - name: SECRET_KEY_BASE
