@@ -18,6 +18,9 @@ Bundler.require(*Rails.groups)
 
 module Thx
   class Application < Rails::Application
+    # apiモードに修正
+    config.api_only = true
+
     # 依存対策
     Global.configure do |config|
       config.environment      = Rails.env.to_s
