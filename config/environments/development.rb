@@ -1,4 +1,7 @@
 Rails.application.configure do
+  # apiモードでデバッグ情報をhtmlに出力
+  config.debug_exception_response_format = :api
+
   # Verifies that versions and hashed value of the package contents in the project's package.json
   config.webpacker.check_yarn_integrity = false
 
