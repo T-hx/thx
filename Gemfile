@@ -38,7 +38,7 @@ gem 'foreman'
 gem 'global', '~> 0.2.1'
 
 # 認証
-gem 'devise', '~> 4.4', '>= 4.4.1'
+gem 'devise', '~> 4.7'
 
 # 管理画面
 gem 'rails_admin', '~> 1.3'
