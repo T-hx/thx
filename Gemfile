@@ -7,7 +7,7 @@ end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1', '>= 5.1.5'
-gem 'puma', '~> 3.11', '>= 3.11.2'
+gem 'puma', '~> 3.12'
 # respond_toが外部Gemになった
 gem 'responders', '~> 2.4'
 # Use mysql as the database for Active Record
