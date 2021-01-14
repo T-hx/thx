@@ -41,7 +41,7 @@ gem 'global', '~> 0.2.1'
 gem 'devise', '~> 4.4', '>= 4.4.1'
 
 # 管理画面
-gem 'rails_admin', '~> 1.3'
+gem 'rails_admin', '~> 1.4'
 
 # 権限管理
 gem 'cancan'
