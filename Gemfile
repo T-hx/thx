@@ -79,7 +79,7 @@ gem 'gon', '~> 6.2'
 gem 'aasm'
 
 # carrierwave
-gem 'carrierwave', '~> 1.2', '>= 1.2.2'
+gem 'carrierwave', '~> 1.3'
 gem 'mini_magick'
 
 # 非同期処理
