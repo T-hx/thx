@@ -73,7 +73,7 @@ gem 'slim-rails', '~> 3.1', '>= 3.1.3'
 gem 'kaminari'
 
 # jsパラメータ受け渡し
-gem 'gon', '~> 6.2'
+gem 'gon', '~> 6.4'
 
 # ステートマシン
 gem 'aasm'
