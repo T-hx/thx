@@ -83,7 +83,7 @@ gem 'carrierwave', '~> 1.2', '>= 1.2.2'
 gem 'mini_magick'
 
 # 非同期処理
-gem 'sidekiq', '< 5'
+gem 'sidekiq', '< 7'
 gem 'sidekiq-middleware'
 # sidekiq/web用
 gem 'sinatra', '~> 2.0', '>= 2.0.1', require: nil
