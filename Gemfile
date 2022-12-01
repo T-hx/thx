@@ -86,7 +86,7 @@ gem 'mini_magick'
 gem 'sidekiq', '< 5'
 gem 'sidekiq-middleware'
 # sidekiq/web用
-gem 'sinatra', '~> 2.0', '>= 2.0.1', require: nil
+gem 'sinatra', '~> 2.2', require: nil
 
 # unicode正規化
 gem 'unf'
